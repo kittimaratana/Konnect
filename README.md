@@ -15,7 +15,7 @@ In phase one, my target audience are Gen Z and Millenial users:
     - looking for people close to their current location to meet
     - looking to meet individuals with similar interests or goals
 
-### Features -- need to complete
+### Features
 
 - Ability to match with users who are similar to you (you define your interests and location)
 - Ability to post events or request to join event and owner accepts/closes posting 
@@ -45,7 +45,7 @@ In phase one, my target audience are Gen Z and Millenial users:
 - contains city, email, username, password, image, age 
 - no api_key required
 
-### Sitemap -----
+### Sitemap 
 
 - Login/ Register
 - Profile Details
@@ -121,7 +121,7 @@ Response:
 
 **POST /user/register**
 
--Create a new account ---- other fields are filled in by default
+-Create a new account 
 
 - Parameters:
     - name: varchar but name of user
