@@ -15,11 +15,18 @@ In phase one, my target audience are Gen Z and Millenial users:
     - looking for people close to their current location to meet
     - looking to meet individuals with similar interests or goals
 
-### Features
+### Features -- talk more after
 
 - Ability to match with users who are similar to you (you define your interests and location)
 - Ability to post events or request to join event and owner accepts/closes posting 
 - Ability to view other people's profile
+
+<Update >
+
+- Login and customize profile
+- View user events and request to join
+- Post event and accept requests
+- Customize user details 
 
 ## Implementation
 
@@ -46,6 +53,7 @@ In phase one, my target audience are Gen Z and Millenial users:
 - no api_key required
 
 ### Sitemap 
+-website map
 
 - Login/ Register
 - Profile Details
@@ -71,11 +79,10 @@ Provide visuals of your app's screens. You can use tools like Figma or pictures 
 Describe your data and the relationships between them. You can show this visually using diagrams, or write it out. 
 
 userCredentials:
-id (primary, unique)
+-id (primary, unique)
 -name
 -email
--password
--token_id
+-password (hash)
 -gender
 -birthday 
 -career
@@ -340,7 +347,7 @@ Response:
     "guestId": 2
 }
 
-**PUT /event/:eventId**
+**PUT /event/:eventId** ---final things postman will see
 
 Host or user have changed state of status
 
@@ -389,6 +396,8 @@ Change everyone who is Pending to Rejected if it is full
     "status": "Rejected"
     "guestId": 3
 }
+
+
 
 
 ### Auth
@@ -472,8 +481,6 @@ Change everyone who is Pending to Rejected if it is full
     - Front-End Feature: Settings page
         - Edit profile -> Link to create interest page
         - Logout -> Just logs out
-    
-- Coding Sprint Day 2
 
 ## Nice-to-haves
 
