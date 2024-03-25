@@ -69,6 +69,21 @@ In phase one, my target audience are Gen Z and Millenial users:
 -Activity
 -Setting
 
+- Intro Sheet
+    - Login Sheet
+    - Register Sheet
+        - Register Details Sheet
+
+- Home Tab (Events Hosting, Upcoming Events)
+    - Create Event Sheet
+    - View 1 Event Hosting Details
+        - View 1 Guest Detail
+    - View 1 Event Upcoming Details
+- Explore Tab 
+- Message Tab 
+- Setting Tab
+    - Update Details Sheet
+
 ### Mockups
 
 Provide visuals of your app's screens. You can use tools like Figma or pictures of hand-drawn sketches.
@@ -90,16 +105,15 @@ userCredentials:
 -interests: store in array string
 -pictures (one for now in link)
 -bio
--pet peeves
+-petPeeves
 
-eventDetails
+event_details (too)
 -eventId (primary, unique)
 -hostuserId (foreign)
--date
--time
+-date ---- MODIFY NO TIME IN THE GETS
 -location
--maxGuest
--totalGuest
+-max_guests
+-total_guests
 -description
 
 userAttendance (includes host):
@@ -110,7 +124,7 @@ userAttendance (includes host):
 
 ### Endpoints
 
-**GET /user/login**
+**GET /user/login** >>
 
 -Login a user 
 
@@ -126,12 +140,13 @@ Response:
 }
 }
 
-**POST /user/register**
+**POST /user/register** >>
 
 -Create a new account 
 
 - Parameters:
-    - name: varchar but name of user
+    - first_name: varchar but name of user
+    - last_name: varchar but name of user
     - email: varchar but requires email validation
     - password: varchar but contains validation
 
@@ -151,7 +166,9 @@ Response:
     "token": "seyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6I..."
 }
 
-**Get /user/:userIid**
+**GET user too**
+
+**Get /user/:userIid** >>
 
 -Get user details (own users or others)
 
@@ -163,9 +180,9 @@ Response:
 
 {
     "id": 1
-    "name": "Kittima",
+    "first_name": "Kittima",    
+    "last_name": "Ratana-Rueangsri",
     "email": "kittima.ratana@gmail.com",
-    "password": "password",
     "gender": "Female",
     "birthday": "1997-02-28",
     "career": "Career Transitioning",
@@ -176,7 +193,7 @@ Response:
     "pet peeves": "flaky, late, and passive agressive people"
 }
 
-**PUT /user/:userId**
+**PUT /user/:userId** >>
 
 -Update user details to register and update as other fields will be filled in
 
@@ -236,7 +253,7 @@ Response:
 }
 ]
 
-**GET /user/:userId/events-joining**
+**GET /events/:userId**
 
 -Get events that user is currently in status pending or going currently 
 
@@ -411,21 +428,21 @@ Change everyone who is Pending to Rejected if it is full
 
 - Sprint 1 - Ensuring that all data is shown properly for each page (target Thursday 21st, latest weekend)
 
-    - Look into Expo/React Native 
+    - Look into Expo/React Native ✅
 
-    - Create server and deploy
+    - Create server and deploy ✅
         - Pull mock data from api as seed data
         - Populate databases 
         - express project with routing
 
-    - Create client and deploy 
+    - Create client and deploy ✅
         - folder structure, routes, pages connections
 
-    - Feature: Implement all backend response types
+    - Feature: Implement all backend response types  ✅
         - Implement all end points and test on Postman
 
-    - Feature: Connect frontend pages to backend
-        - Design can be ugly, just want to ensure that all frontend pages display data from server
+    - Feature: Connect frontend pages to backend 
+        - Design can be ugly, just want to ensure that all frontend pages display data from server Working on it ✅
 
 - Sprint 2 - FrontEnd Design (target Thursday 28th, latest Friday)
 
