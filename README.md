@@ -441,8 +441,8 @@ Change everyone who is Pending to Rejected if it is full
     - Feature: Implement all backend response types  ✅
         - Implement all end points and test on Postman
 
-    - Feature: Connect frontend pages to backend 
-        - Design can be ugly, just want to ensure that all frontend pages display data from server Working on it ✅
+    - Feature: Connect frontend pages to backend 🆗
+        - Design can be ugly, just want to ensure that all frontend pages display data from server Working on it
 
 - Sprint 2 - FrontEnd Design (target Thursday 28th, latest Friday)
 

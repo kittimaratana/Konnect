@@ -12,7 +12,7 @@ const IntroScreen = ({route}) => {
     }
 
     const navigateToRegister = () => {
-        navigation.navigate('RegisterUser', {handleLogin: handleLogin})
+        navigation.navigate('Register', {handleLogin: handleLogin})
     }
 
     return (

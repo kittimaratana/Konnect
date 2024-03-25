@@ -5,15 +5,11 @@ import { StyleSheet } from 'react-native';
 import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-const RegisterDetailsScreen = () => {
-    //const { handleLogin } = route.params;
+const RegisterProfileScreen = ({ route }) => {
+    const { handleLogin } = route.params;
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
     const navigation = useNavigation();
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
     const [gender, setGender] = useState('');
     const [birthday, setBirthday] = useState('');
     const [career, setCareer] = useState('');
@@ -29,19 +25,10 @@ const RegisterDetailsScreen = () => {
 
     //add validation after
     const handleRegister = async (event) => {
-        // event.preventDefault();
-        // console.log(gender);
-        // console.log(birthday);
-        // console.log(career);
-        // console.log(city);
-        // console.log(interests);
-        // console.log(picture);
-        // console.log(bio);
-        // console.log(petPeeves)
 
         try {
             const token = await AsyncStorage.getItem('token')
-            const response = await axios.put("http://localhost:5001/users", {
+            await axios.put("http://localhost:5001/users", {
                 gender: gender,
                 birthday: birthday,
                 career: career,
@@ -57,6 +44,7 @@ const RegisterDetailsScreen = () => {
             });
             setSuccess(true);
             setError(null);
+            handleLogin();
             navigation.navigate('Main');
         } catch (error) {
             setSuccess(false);
@@ -149,4 +137,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default RegisterDetailsScreen;
+export default RegisterProfileScreen;

@@ -5,7 +5,7 @@ import { StyleSheet } from 'react-native';
 import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-const RegisterUserScreen = ({ route }) => {
+const RegisterScreen = ({ route }) => {
     const { handleLogin } = route.params;
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
@@ -37,10 +37,9 @@ const RegisterUserScreen = ({ route }) => {
             });
 
             AsyncStorage.setItem("token", response.data.token);
-            handleLogin();
             setSuccess(true);
             setError(null);
-            navigation.navigate('RegisterDetails');
+            navigation.navigate('RegisterProfile', {handleLogin: handleLogin});
         } catch (error) {
             setSuccess(false);
             setError(error.response.data);
@@ -109,4 +108,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default RegisterUserScreen;
+export default RegisterScreen;
