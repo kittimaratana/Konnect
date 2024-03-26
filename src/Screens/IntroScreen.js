@@ -1,39 +1,51 @@
 import React from 'react';
-import {View, Text, TouchableWithoutFeedback} from 'react-native';
+import { View, Text, TouchableWithoutFeedback, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet } from 'react-native';
+import ActionButton from '../components/ActionButton';
 
-const IntroScreen = ({route}) => {
+const IntroScreen = ({ route }) => {
     const { handleLogin } = route.params;
     const navigation = useNavigation();
 
     const navigateToLogin = () => {
-        navigation.navigate('Login', {handleLogin: handleLogin})
+        navigation.navigate('Login', { handleLogin: handleLogin })
     }
 
     const navigateToRegister = () => {
-        navigation.navigate('Register', {handleLogin: handleLogin})
+        navigation.navigate('Register', { handleLogin: handleLogin })
     }
 
     return (
-        <View style={styles.container}>
-            <Text>Setting Screen:</Text>
-            <TouchableWithoutFeedback onPress={navigateToLogin}>
-                <Text>Login</Text>
-            </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback onPress={navigateToRegister}>
-                <Text>Register</Text>
-            </TouchableWithoutFeedback>
-        </View>
+        <SafeAreaView style={styles.container}>
+            <Text>Konnect</Text>
+            <Text>👉 🏈 ♓ 🎶 🎭 🌸</Text>
+            <View style={styles.actionContainer}>
+                <ActionButton onPress={navigateToLogin} title="Login" />
+                <ActionButton style={styles.actionGap} onPress={navigateToRegister} title="Register" />
+            </View>
+        </SafeAreaView >
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
+        flex: 1,   
+        margin: 0,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#e3cef6',
     },
-  });
+    actionContainer: {
+        width: '100%',
+        paddingHorizontal: 16,
+        paddingTop: 100,
+    },
+    actionGap: {
+        marginTop: 10,
+        backgroundColor: '#e3cef6',
+    }
+
+});
 
 export default IntroScreen;
