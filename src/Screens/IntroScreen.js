@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, Text, TouchableWithoutFeedback, SafeAreaView } from 'react-native';
+import { View, Text, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet } from 'react-native';
 import ActionButton from '../components/ActionButton';
+import {colors, spacing, fontSize} from '../styles/styles';
 
 const IntroScreen = ({ route }) => {
     const { handleLogin } = route.params;
@@ -18,10 +19,12 @@ const IntroScreen = ({ route }) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Text>Konnect</Text>
-            <Text>👉 🏈 ♓ 🎶 🎭 🌸</Text>
+            <View style={styles.titleContainer}>
+                <Text style={styles.title}>Konnect</Text>
+                <Text>👉 🏈 ♓ 🎶 🎭 🌸</Text>
+            </View>
             <View style={styles.actionContainer}>
-                <ActionButton onPress={navigateToLogin} title="Login" />
+                <ActionButton onPress={navigateToLogin} title="Login"/>
                 <ActionButton style={styles.actionGap} onPress={navigateToRegister} title="Register" />
             </View>
         </SafeAreaView >
@@ -30,20 +33,31 @@ const IntroScreen = ({ route }) => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,   
-        margin: 0,
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        backgroundColor: colors.lightPurple,
+    },
+    titleContainer: {
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#e3cef6',
+        height: '50%'
+    },
+    title: {
+        marginBottom: spacing.component,
+        fontSize: fontSize.header
     },
     actionContainer: {
         width: '100%',
-        paddingHorizontal: 16,
-        paddingTop: 100,
+        height: '40%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingHorizontal: spacing.margin,
+
     },
     actionGap: {
-        marginTop: 10,
-        backgroundColor: '#e3cef6',
+        marginTop: spacing.component,
+        backgroundColor: '#e3cef6'
     }
 
 });

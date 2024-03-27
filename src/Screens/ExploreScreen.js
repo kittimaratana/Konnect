@@ -1,8 +1,10 @@
 import { useState, useEffect, React } from "react";
-import { ScrollView, View, Text, RefreshControl, FlatList, StyleSheet } from 'react-native';
+import { ScrollView, View, Text, RefreshControl, FlatList, StyleSheet, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from "axios";
 import { PanGestureHandler } from "react-native-gesture-handler";
+import { colors, spacing, fontSize, form } from '../styles/styles';
+import ActionButton from '../components/ActionButton';
 
 const ExploreScreen = () => {
     const [event, setEvent] = useState([]);
@@ -69,23 +71,65 @@ const ExploreScreen = () => {
     }
 
     return (
-
-        <ScrollView RefreshControl={<RefreshControl refreshing={event} onRefresh={onRefresh} />}>
-            <Text>{event.date}</Text>
-            <Text>{event.location}</Text>
-            <Text>{event.max_guests}</Text>
-            <Text>{event.total_guests}</Text>
-            <Text>{event.description}</Text>
-        </ScrollView>
+        <SafeAreaView RefreshControl={<RefreshControl refreshing={event} onRefresh={onRefresh} />}>
+            <Image></Image>
+            <View>
+                <Text>{event.date} at 8:00 pm</Text>
+                <Text>Location: {event.location}</Text>
+                <Text>Max Guests: {event.max_guests}</Text>
+                <Text>Description: {event.description}</Text>
+                <View style={styles.actionContainer}>
+                    <ActionButton style={styles.backButton} onPress={handleRequest} title="Request to Join" />
+                </View>
+            </View>
+        </SafeAreaView>
     )
 }
 
-/*
-    <FlatList
-        data={products}
-        renderItem={({ item }) => renderProduct(item)}
-        contentContainerStyle={{ gap: 10 }}
-    />
-*/
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        backgroundColor: colors.lightPurple,
+    },
+    titleContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '40%'
+    },
+    title: {
+        marginBottom: spacing.component,
+        fontSize: fontSize.header
+    },
+    formContainer: {
+        width: '100%',
+        height: '50%',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        paddingHorizontal: spacing.margin,
+    },
+    actionContainer: {
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: spacing.component
+    },
+    backButton: {
+        width: '48%',
+        backgroundColor: colors.redButton
+    },
+    loginButton: {
+        width: '48%'
+    },
+    error: {
+        borderWidth: 1,
+        borderColor: colors.redError
+    },
+    errorPassword: {
+        marginTop: spacing.component,
+        color: colors.redError
+    }
+
+});
 
 export default ExploreScreen;

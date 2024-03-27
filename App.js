@@ -2,11 +2,11 @@ import React from 'react';
 import { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import MainTabNavigator from './src/Navigation/MainTabNavigator';
-import IntroScreen from './src/Screens/IntroScreen';
-import LoginScreen from './src/Screens/LoginScreen';
-import RegisterScreen from './src/Screens/RegisterScreen';
-import RegisterProfileScreen from './src/Screens/RegisterProfileScreen';
+import MainTabNavigator from './src/navigation/MainTabNavigator';
+import IntroScreen from './src/screens/IntroScreen';
+import LoginScreen from './src/screens/LoginScreen';
+import RegisterScreen from './src/screens/RegisterScreen';
+import RegisterProfileScreen from './src/screens/RegisterProfileScreen';
 
 export default function App() {
   const Stack = createStackNavigator();

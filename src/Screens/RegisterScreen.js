@@ -1,9 +1,11 @@
 import { useState, React } from 'react';
-import { View, Text, TouchableWithoutFeedback, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, Text,TextInput, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet } from 'react-native';
 import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { colors, spacing, fontSize, form } from '../styles/styles';
+import ActionButton from '../components/ActionButton';
 
 const RegisterScreen = ({ route }) => {
     const { handleLogin } = route.params;
@@ -15,6 +17,8 @@ const RegisterScreen = ({ route }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [invalidPassword, setInvalidPassword] = useState(false);
+    const [hasSubmit, setHasSubmit] = useState(false);
 
     const handleBack = () => {
         navigation.goBack();
@@ -23,80 +27,94 @@ const RegisterScreen = ({ route }) => {
     //add validation after
     const handleRegister = async (event) => {
         event.preventDefault();
-        
-        if (password === confirmPassword) {
-            console.log("yes");
+        setInvalidPassword(false);
+        setHasSubmit(true);
+        let fieldError = false;
+
+        if ([firstName, lastName, email, password, confirmPassword].some(field => field === "")) {
+            fieldError = true;
         }
 
-        try {
-            const response = await axios.post("http://localhost:5001/auth/register", {
-                first_name: firstName,
-                last_name: lastName,
-                email: email,
-                password: password
-            });
+        if (password !== confirmPassword) {
+            fieldError = true;
+            setInvalidPassword(true);
+        }
 
-            AsyncStorage.setItem("token", response.data.token);
-            setSuccess(true);
-            setError(null);
-            navigation.navigate('RegisterProfile', {handleLogin: handleLogin});
-        } catch (error) {
-            setSuccess(false);
-            setError(error.response.data);
+        if (fieldError === false) {
+            try {
+                const response = await axios.post("http://localhost:5001/auth/register", {
+                    first_name: firstName,
+                    last_name: lastName,
+                    email: email,
+                    password: password
+                });
+
+                AsyncStorage.setItem("token", response.data.token);
+                setSuccess(true);
+                setError(null);
+                navigation.navigate('RegisterProfile', { handleLogin: handleLogin });
+            } catch (error) {
+                setSuccess(false);
+                setError(error.response.data);
+            }
         }
     }
 
     return (
-        <View style={styles.container}>
-            <View>
-                <Text>First Name</Text>
-                <TextInput
-                    placeholder="Please enter your first name"
-                    value={firstName}
-                    onChangeText={(text) => setFirstName(text)}
-                />
+        <SafeAreaView style={styles.container}>
+            <View style={styles.titleContainer}>
+                <Text style={styles.title}>Register</Text>
             </View>
-            <View>
-                <Text>Last Name</Text>
-                <TextInput
-                    placeholder="Please enter your last name"
-                    value={lastName}
-                    onChangeText={(text) => setLastName(text)}
-                />
+            <View style={styles.formContainer}>
+                    <Text style={form.input}>First Name</Text>
+                    <TextInput style={[
+                        form.field,
+                        hasSubmit && firstName === "" ? styles.error : null,
+                    ]}
+                        value={firstName}
+                        onChangeText={(text) => setFirstName(text)}
+                    />
+                    <Text style={form.input}>Last Name</Text>
+                    <TextInput style={[
+                        form.field,
+                        hasSubmit && lastName === "" ? styles.error : null,
+                    ]}
+                        value={lastName}
+                        onChangeText={(text) => setLastName(text)}
+                    />
+                    <Text style={form.input}>Email</Text>
+                    <TextInput style={[
+                        form.field,
+                        hasSubmit && email === "" ? styles.error : null,
+                    ]}
+                        value={email}
+                        onChangeText={(text) => setEmail(text)}
+                    />
+                    <Text style={form.input}>Password</Text>
+                    <TextInput style={[
+                        form.field,
+                        hasSubmit && password === "" ? styles.error : null,
+                    ]}
+                        value={password}
+                        onChangeText={(text) => setPassword(text)}
+                        secureTextEntry={true}
+                    />
+                    <Text style={form.input}>Confirm Password</Text>
+                    <TextInput style={[
+                        form.field,
+                        hasSubmit && confirmPassword === "" ? styles.error : null,
+                    ]}
+                        value={confirmPassword}
+                        onChangeText={(text) => setConfirmPassword(text)}
+                        secureTextEntry={true}
+                    />
+                    {hasSubmit && invalidPassword ? <Text style={styles.errorPassword}>Password do not match</Text>: null}
+                <View style={styles.actionContainer}>
+                    <ActionButton style={styles.backButton} onPress={handleBack} title="Back" />
+                    <ActionButton style={styles.loginButton} textColor={colors.white} onPress={handleRegister} title="Register" />
+                </View>
             </View>
-            <View>
-                <Text>Login</Text>
-                <TextInput
-                    placeholder="Please enter your username"
-                    value={email}
-                    onChangeText={(text) => setEmail(text)}
-                />
-            </View>
-            <View>
-                <Text>Password</Text>
-                <TextInput
-                    placeholder="Please enter your password"
-                    value={password}
-                    onChangeText={(text) => setPassword(text)}
-                    secureTextEntry={true}
-                />
-            </View>
-            <View>
-                <Text>Confirm Password</Text>
-                <TextInput
-                    placeholder="Please enter your password"
-                    value={confirmPassword}
-                    onChangeText={(text) => setConfirmPassword(text)}
-                    secureTextEntry={true}
-                />
-            </View>
-            <TouchableWithoutFeedback onPress={handleBack}>
-                <Text>Back</Text>
-            </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback onPress={handleRegister}>
-                <Text>Register</Text>
-            </TouchableWithoutFeedback>
-        </View>
+        </SafeAreaView>
     )
 }
 
@@ -104,8 +122,46 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center',
+        backgroundColor: colors.lightPurple,
     },
+    titleContainer: {
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+        height: '10%'
+    },
+    title: {
+        marginBottom: spacing.component,
+        fontSize: fontSize.header
+    },
+    formContainer: {
+        width: '100%',
+        height: '90%',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        paddingHorizontal: spacing.margin,
+    },
+    actionContainer: {
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: spacing.component
+    },
+    backButton: {
+        width: '48%',
+        backgroundColor: colors.redButton
+    },
+    loginButton: {
+        width: '48%'
+    },
+    error: {
+        borderWidth: 1,
+        borderColor: colors.redError
+    },
+    errorPassword: {
+        marginTop: spacing.component,
+        color: colors.redError
+    }
+
 });
 
 export default RegisterScreen;
