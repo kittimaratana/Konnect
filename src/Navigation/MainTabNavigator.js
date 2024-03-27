@@ -18,7 +18,8 @@ const MainTabNavigator = () => {
             //tabBarLabel: 'Home',
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="home" color={color} size={size} />
-            )
+            ),
+            headerShown: false 
           }}
         />
         <MainTab.Screen 
@@ -29,6 +30,7 @@ const MainTabNavigator = () => {
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="magnify" color={color} size={size} />
             ),
+            headerShown: false 
           }}
         />
         <MainTab.Screen 
@@ -38,7 +40,8 @@ const MainTabNavigator = () => {
             //tabBarLabel: 'Message',
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="message" color={color} size={size} />
-            )
+            ),
+            headerShown: false 
           }}
           />
         <MainTab.Screen 
@@ -48,7 +51,8 @@ const MainTabNavigator = () => {
             //tabBarLabel: 'Account',
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="account-circle" color={color} size={size} />
-            )
+            ),
+            headerShown: false 
           }}
         />
       </MainTab.Navigator>

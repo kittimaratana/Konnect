@@ -6,11 +6,13 @@ export const colors = {
     white: '#FFFFFF',
     black: '#0A0A0A',
     lightPurple: '#E3CEF6', 
+    darkPurple: '#5B0BAB',
     pink: '#F5B3F0',
     blue: '#3B50ED',
     redButton: '#F6C0B5',
     purpleButton: '#8B6CE5',
-    redError: '#F16247'
+    redError: '#F16247',
+    gray: '#878387'
 };
 
 //spacing

@@ -1,13 +1,15 @@
 import { useState, useEffect, React } from "react";
-import { ScrollView, View, Text, RefreshControl, FlatList, StyleSheet, Image } from 'react-native';
+import { ScrollView, View, Text, RefreshControl, FlatList, StyleSheet, Image, SafeAreaView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from "axios";
 import { PanGestureHandler } from "react-native-gesture-handler";
 import { colors, spacing, fontSize, form } from '../styles/styles';
 import ActionButton from '../components/ActionButton';
+import Header from '../components/Header';
 
 const ExploreScreen = () => {
     const [event, setEvent] = useState([]);
+    const [host, setHost] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [hasError, setHasError] = useState(false);
 
@@ -20,7 +22,14 @@ const ExploreScreen = () => {
                 }
             });
 
+            const hostResponse = await axios.get(`http://localhost:5001/users/${eventResponse.data["user_id"]}`, {
+                headers: {
+                    authorization: `Bear ${token}`
+                }
+            });
+
             setEvent(eventResponse.data);
+            setHost(hostResponse.data);
             setIsLoading(false);
         } catch (error) {
             console.log(error.response.data);
@@ -70,16 +79,22 @@ const ExploreScreen = () => {
         return <Text>Is Loading...</Text>;
     }
 
+    console.log(`http://localhost:5001${host.picture}`)
+
     return (
-        <SafeAreaView RefreshControl={<RefreshControl refreshing={event} onRefresh={onRefresh} />}>
-            <Image></Image>
+        <SafeAreaView  style={styles.container} RefreshControl={<RefreshControl refreshing={event} onRefresh={onRefresh} />}>
+            <Header/>
+            <Image 
+                style={{width: '100%', height: '68%'}}
+                source={{uri: `http://localhost:5001${host.picture}`}}
+            />
             <View>
-                <Text>{event.date} at 8:00 pm</Text>
                 <Text>Location: {event.location}</Text>
+                <Text>Date: {event.date}</Text>
                 <Text>Max Guests: {event.max_guests}</Text>
                 <Text>Description: {event.description}</Text>
                 <View style={styles.actionContainer}>
-                    <ActionButton style={styles.backButton} onPress={handleRequest} title="Request to Join" />
+                    <ActionButton style={styles.backButton} onPress={postEvent} title="Request to Join" />
                 </View>
             </View>
         </SafeAreaView>
@@ -91,15 +106,6 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         backgroundColor: colors.lightPurple,
-    },
-    titleContainer: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '40%'
-    },
-    title: {
-        marginBottom: spacing.component,
-        fontSize: fontSize.header
     },
     formContainer: {
         width: '100%',
@@ -117,17 +123,6 @@ const styles = StyleSheet.create({
     backButton: {
         width: '48%',
         backgroundColor: colors.redButton
-    },
-    loginButton: {
-        width: '48%'
-    },
-    error: {
-        borderWidth: 1,
-        borderColor: colors.redError
-    },
-    errorPassword: {
-        marginTop: spacing.component,
-        color: colors.redError
     }
 
 });
