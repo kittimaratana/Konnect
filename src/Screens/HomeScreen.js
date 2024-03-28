@@ -1,13 +1,18 @@
 import { useState, useEffect, React } from "react";
-import { View, Text } from 'react-native';
+import { View, Text, SafeAreaView, StyleSheet} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useNavigation } from '@react-navigation/native';
 import axios from "axios";
+import { colors, spacing, fontSize, form } from '../styles/styles';
+import ActionButton from '../components/ActionButton';
 
 const HomeScreen = () => {
     const [hostingEvents, setHostingEvents] = useState([]);
     const [upcomingEvents, setUpcomingEvents] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [hasError, setHasError] = useState(false);
+    const [change, setChange] = useState(0);
+    const navigation = useNavigation();
 
     const fetchEvents = async (event) => {
         try {
@@ -19,10 +24,10 @@ const HomeScreen = () => {
                 }
             });
 
-            const upcomingEventsResponse= await axios.get("http://localhost:5001/events/user/upcoming-events", {
+            const upcomingEventsResponse = await axios.get("http://localhost:5001/events/user/upcoming-events", {
                 headers: {
-                    authorization: "Bearer " + token,
-                },
+                    authorization: `Bear ${token}`
+                }
             });
 
             setHostingEvents(hostingEventsResponse.data);
@@ -36,11 +41,18 @@ const HomeScreen = () => {
     }
 
     useEffect(() => {
-        // Fetching events for user
-        console.log("first test");
         fetchEvents();
-    }, []);
+    }, [change]);
 
+    const handleCreateEvent = () => {
+        navigation.navigate('CreateEvent')
+    }
+
+    /*
+    const handleChanges = () => {
+        setChange(change+1)
+    }
+    */
 
     if (hasError) {
         return (
@@ -51,10 +63,11 @@ const HomeScreen = () => {
     if (isLoading) {
         return <Text>Is Loading...</Text>;
     }
+    console.log(hostingEvents);
 
     return (
-        <View>
-            <Text>Home Screen</Text>
+        <SafeAreaView style={styles.container}>
+            <Text>Events I'm Hosting</Text>
             {hostingEvents.map((hostingEvent) => {
                 return (
                     <View key={hostingEvent.id}>
@@ -67,6 +80,10 @@ const HomeScreen = () => {
                     </View>
                 );
             })}
+            <View style={styles.actionContainer}>
+                <ActionButton style={styles.backButton} onPress={handleCreateEvent} title="Create Event" />
+            </View>
+            <Text>Upcoming Events</Text>
             {upcomingEvents.map((upcomingEvent) => {
                 return (
                     <View key={upcomingEvent.id}>
@@ -79,8 +96,17 @@ const HomeScreen = () => {
                     </View>
                 );
             })}
-        </View>
+        </SafeAreaView>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        backgroundColor: colors.lightPurple
+    }
+
+});
 
 export default HomeScreen;

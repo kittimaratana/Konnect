@@ -1,9 +1,9 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomeScreen from '../screens/HomeScreen'
+import HomeStackNavigator from './HomeStackNavigator'
 import ExploreScreen from '../screens/ExploreScreen'
 import MessageScreen from '../screens/MessageScreen'
-import SettingsScreen from '../screens/SettingsScreen'
+import SettingsStackNavigator from './SettingsStackNavigator'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const MainTabNavigator = () => {
@@ -13,7 +13,7 @@ const MainTabNavigator = () => {
       <MainTab.Navigator>
         <MainTab.Screen 
           name="Home" 
-          component={HomeScreen} 
+          component={HomeStackNavigator} 
           options={{
             //tabBarLabel: 'Home',
             tabBarIcon: ({ color, size }) => (
@@ -46,7 +46,7 @@ const MainTabNavigator = () => {
           />
         <MainTab.Screen 
           name="Setting" 
-          component={SettingsScreen} 
+          component={SettingsStackNavigator} 
           options={{
             //tabBarLabel: 'Account',
             tabBarIcon: ({ color, size }) => (
