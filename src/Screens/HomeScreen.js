@@ -1,10 +1,13 @@
 import { useState, useEffect, React } from "react";
-import { View, Text, SafeAreaView, StyleSheet} from 'react-native';
+import { View, Text, SafeAreaView, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation } from '@react-navigation/native';
 import axios from "axios";
 import { colors, spacing, fontSize, form } from '../styles/styles';
+import Header from '../components/Header';
 import ActionButton from '../components/ActionButton';
+import EventPreview from '../components/EventPreview';
+import { ScrollView } from "react-native-gesture-handler";
 
 const HomeScreen = () => {
     const [hostingEvents, setHostingEvents] = useState([]);
@@ -67,35 +70,47 @@ const HomeScreen = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Text>Events I'm Hosting</Text>
-            {hostingEvents.map((hostingEvent) => {
-                return (
-                    <View key={hostingEvent.id}>
-                        <Text>{hostingEvent.id}</Text>
-                        <Text>{hostingEvent.date}</Text>
-                        <Text>{hostingEvent.location}</Text>
-                        <Text>{hostingEvent.max_guests}</Text>
-                        <Text>{hostingEvent.description}</Text>
-                        <Text>{hostingEvent.pendingStatus}</Text>
-                    </View>
-                );
-            })}
-            <View style={styles.actionContainer}>
-                <ActionButton style={styles.backButton} onPress={handleCreateEvent} title="Create Event" />
-            </View>
-            <Text>Upcoming Events</Text>
-            {upcomingEvents.map((upcomingEvent) => {
-                return (
-                    <View key={upcomingEvent.id}>
-                        <Text>{upcomingEvent.id}</Text>
-                        <Text>{upcomingEvent.date}</Text>
-                        <Text>{upcomingEvent.location}</Text>
-                        <Text>{upcomingEvent.max_guests}</Text>
-                        <Text>{upcomingEvent.description}</Text>
-                        <Text>{upcomingEvent.status}</Text>
-                    </View>
-                );
-            })}
+            <ScrollView>
+                <Header />
+                <Text style={styles.title}>Events I'm Hosting</Text>
+                {hostingEvents.map((hostingEvent) => {
+                    let hostStatus = "New Requests!";
+                    if (hostingEvent.pendingStatus === "false") {
+                        hostStatus = "View Event"
+                    }
+
+                    return (
+                        <EventPreview
+                            key={hostingEvent.id}
+                            eventId={hostingEvent.id}
+                            picture={hostingEvent.picture}
+                            date={hostingEvent.date}
+                            location={hostingEvent.location}
+                            maxGuests={hostingEvent.max_guests}
+                            description={hostingEvent.description}
+                            status={hostStatus}
+                        />
+                    );
+                })}
+                <TouchableOpacity style={styles.button} onPress={handleCreateEvent}>
+                    <Text style={styles.buttonText}>Create Event</Text>
+                </TouchableOpacity>
+                <Text style={styles.title}>Upcoming Events</Text>
+                {upcomingEvents.map((upcomingEvent) => {
+                    return (
+                        <EventPreview
+                            key={upcomingEvent.id}
+                            eventId={upcomingEvent.id}
+                            picture={upcomingEvent.picture}
+                            date={upcomingEvent.date}
+                            location={upcomingEvent.location}
+                            maxGuests={upcomingEvent.max_guests}
+                            description={upcomingEvent.description}
+                            status={upcomingEvent.status}
+                        />
+                    );
+                })}
+            </ScrollView>
         </SafeAreaView>
     )
 }
@@ -103,10 +118,28 @@ const HomeScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
-        backgroundColor: colors.lightPurple
+        backgroundColor: colors.white,
+    },
+    title: {
+        paddingHorizontal: spacing.margin,
+        fontSize: fontSize.header,
+        color: colors.purpleButton,
+        marginBottom: spacing.margin
+    },
+    settingOption: {
+        paddingHorizontal: spacing.margin,
+        marginTop: spacing.margin,
+    },
+    settingOptionText: {
+        fontSize: fontSize.sectionHeader
+    },
+    button: {
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        paddingHorizontal: spacing.margin,
+    },
+    buttonText: {
+        color: colors.purpleButton
     }
-
 });
-
 export default HomeScreen;

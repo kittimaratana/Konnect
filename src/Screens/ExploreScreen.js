@@ -102,14 +102,13 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        backgroundColor: colors.lightPurple
+        backgroundColor: colors.white,
     },
     formContainer: {
         width: '100%',
         height: '50%',
         alignItems: 'center',
         justifyContent: 'flex-start',
-        paddingHorizontal: spacing.margin,
     }
 
 });

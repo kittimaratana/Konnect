@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { colors, spacing, fontSize } from '../styles/styles';
 import ActionButton from './ActionButton';
 
-const UserImage = ({ location, date, description, action, actionText }) => {
+const EventDetails = ({ location, date, description, action, actionText }) => {
     const dateFormatted = new Date(date);
 
     const options = {
@@ -28,7 +28,6 @@ const UserImage = ({ location, date, description, action, actionText }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: colors.white,
         paddingHorizontal: spacing.margin,
         justifyContent: 'center'
     },
@@ -44,4 +43,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default UserImage;
+export default EventDetails;
