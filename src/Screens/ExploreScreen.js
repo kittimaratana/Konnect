@@ -4,8 +4,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from "axios";
 import { PanGestureHandler } from "react-native-gesture-handler";
 import { colors, spacing, fontSize, form } from '../styles/styles';
-import ActionButton from '../components/ActionButton';
 import Header from '../components/Header';
+import UserImage from '../components/UserImage';
+import EventDetails from '../components/EventDetails';
 
 const ExploreScreen = () => {
     const [event, setEvent] = useState([]);
@@ -42,7 +43,7 @@ const ExploreScreen = () => {
     const postEvent = async (status) => {
         try {
             const token = await AsyncStorage.getItem('token')
-            await axios.put("http://localhost:5001/events/", {
+            await axios.post(`http://localhost:5001/events/${event.id}`, {
                 event_id: event.id,
                 status: status
             }, {
@@ -82,21 +83,17 @@ const ExploreScreen = () => {
     console.log(`http://localhost:5001${host.picture}`)
 
     return (
-        <SafeAreaView  style={styles.container} RefreshControl={<RefreshControl refreshing={event} onRefresh={onRefresh} />}>
-            <Header/>
-            <Image 
-                style={{width: '100%', height: '68%'}}
-                source={{uri: `http://localhost:5001${host.picture}`}}
+        <SafeAreaView style={styles.container} RefreshControl={<RefreshControl refreshing={event} onRefresh={onRefresh} />}>
+            <Header />
+            <UserImage picture={host.picture} />
+            <EventDetails 
+                key = {event.id}
+                location={event.location}
+                date={event.date}
+                description={event.description}
+                action={postEvent}
+                actionText="Request to Join"
             />
-            <View>
-                <Text>Location: {event.location}</Text>
-                <Text>Date: {event.date}</Text>
-                <Text>Max Guests: {event.max_guests}</Text>
-                <Text>Description: {event.description}</Text>
-                <View style={styles.actionContainer}>
-                    <ActionButton style={styles.backButton} onPress={postEvent} title="Request to Join" />
-                </View>
-            </View>
         </SafeAreaView>
     )
 }
@@ -105,7 +102,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        backgroundColor: colors.lightPurple,
+        backgroundColor: colors.lightPurple
     },
     formContainer: {
         width: '100%',
@@ -113,16 +110,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'flex-start',
         paddingHorizontal: spacing.margin,
-    },
-    actionContainer: {
-        width: '100%',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginTop: spacing.component
-    },
-    backButton: {
-        width: '48%',
-        backgroundColor: colors.redButton
     }
 
 });
