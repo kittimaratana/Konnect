@@ -1,17 +1,17 @@
 import React from 'react';
-import HomeScreen from '../screens/HomeScreen'
-import CreateEventScreen from '../screens/CreateEventScreen'
+import ExploreScreen from '../screens/ExploreScreen'
+import ViewProfileScreen from '../screens/ViewProfileScreen'
 import { createStackNavigator } from '@react-navigation/stack';
 
-const HomeStackNavigator = () => {
-  const HomeStack = createStackNavigator();
+const ExploreStackNavigator = () => {
+  const ExploreStack = createStackNavigator();
 
   return (
-    <HomeStack.Navigator>
-      <HomeStack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-      <HomeStack.Screen name="CreateEvent" component={CreateEventScreen} options={{ headerShown: false }} />
-    </HomeStack.Navigator>
+    <ExploreStack.Navigator>
+      <ExploreStack.Screen name="ExploreScreen" component={ExploreScreen} options={{ headerShown: false }} />
+      <ExploreStack.Screen name="ViewOtherProfile" component={ViewProfileScreen} options={{ headerShown: false }} />
+    </ExploreStack.Navigator>
   )
 }
 
-export default HomeStackNavigator;
+export default ExploreStackNavigator;

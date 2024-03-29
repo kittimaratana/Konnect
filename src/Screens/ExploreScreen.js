@@ -72,7 +72,6 @@ const ExploreScreen = () => {
 
     const handleSwipeLeft = () => {
         postEvent("Uninterested");
-        console.log("tester");
     }
 
     if (hasError) {
@@ -91,7 +90,7 @@ const ExploreScreen = () => {
         <GestureDetector gesture={fling}>
             <SafeAreaView style={styles.container} RefreshControl={<RefreshControl refreshing={event} onRefresh={onRefresh} />}>
                 <Header />
-                <UserImage picture={host.picture} />
+                <UserImage picture={host.picture} userId={host.id}/>
                 <EventDetails
                     key={event.id}
                     location={event.location}

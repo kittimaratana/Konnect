@@ -12,7 +12,7 @@ const SettingsScreen = () => {
     }
 
     const handleViewProfile = () => {
-        navigation.navigate('ViewProfile')
+        navigation.navigate('ViewProfile', {userId:""})
     }
 
     return (

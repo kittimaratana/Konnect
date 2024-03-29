@@ -1,7 +1,7 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeStackNavigator from './HomeStackNavigator'
-import ExploreScreen from '../screens/ExploreScreen'
+import ExploreStackNavigator from './ExploreStackNavigator'
 import MessageScreen from '../screens/MessageScreen'
 import SettingsStackNavigator from './SettingsStackNavigator'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -24,7 +24,7 @@ const MainTabNavigator = () => {
         />
         <MainTab.Screen 
           name="Explore" 
-          component={ExploreScreen} 
+          component={ExploreStackNavigator} 
           options={{
             //tabBarLabel: 'Magnify',
             tabBarIcon: ({ color, size }) => (

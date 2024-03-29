@@ -1,12 +1,21 @@
 import React from 'react';
-import {Image} from 'react-native';
+import { Image, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
-const UserImage = ({picture}) => {
+const UserImage = ({ picture, userId }) => {
+    const navigation = useNavigation();
+
+    const handleViewProfile = () => {
+        navigation.navigate('ViewOtherProfile', {userId})
+    }
+
     return (
-        <Image
-            style={{ width: '100%', height: '65%' }}
-            source={{ uri: `http://localhost:5001${picture}` }}
-        />
+        <TouchableOpacity style={{width: '100%', height: '65%'}} onPress={handleViewProfile}>
+            <Image
+                style={{ width: '100%', height: '100%' }}
+                source={{ uri: `http://localhost:5001${picture}` }}
+            />
+        </TouchableOpacity>
     )
 }
 

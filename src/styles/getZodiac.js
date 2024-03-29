@@ -80,7 +80,7 @@ const getZodiac = (birthdayInput) => {
         sign: zodiacs[0].sign,
         emoji: zodiacs[0].emoji
     }
-    
+
     for(let i = 1; i < zodiacs.length; i++) {
         let zodiac = {...zodiacs[i]}; //ensure no pointer assignment
         zodiac.dateStart = new Date (birthday.getFullYear() + zodiac.dateStart.substring(4));
