@@ -2,11 +2,11 @@ import { useState, useEffect, React } from "react";
 import { ScrollView, View, Text, RefreshControl, FlatList, StyleSheet, Image, SafeAreaView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from "axios";
-import { PanGestureHandler } from "react-native-gesture-handler";
 import { colors, spacing, fontSize, form } from '../styles/styles';
 import Header from '../components/Header';
 import UserImage from '../components/UserImage';
 import EventDetails from '../components/EventDetails';
+import { Directions, Gesture, GestureDetector } from 'react-native-gesture-handler';
 
 const ExploreScreen = () => {
     const [event, setEvent] = useState([]);
@@ -70,6 +70,11 @@ const ExploreScreen = () => {
         fetchEvent();
     }
 
+    const handleSwipeLeft = () => {
+        postEvent("Uninterested");
+        console.log("tester");
+    }
+
     if (hasError) {
         return (
             <Text>Unable to pull data right now</Text>
@@ -79,20 +84,24 @@ const ExploreScreen = () => {
     if (isLoading) {
         return <Text>Is Loading...</Text>;
     }
-    
+
+    const fling = Gesture.Fling().direction(Directions.LEFT).onEnd(handleSwipeLeft);
+
     return (
-        <SafeAreaView style={styles.container} RefreshControl={<RefreshControl refreshing={event} onRefresh={onRefresh} />}>
-            <Header />
-            <UserImage picture={host.picture} />
-            <EventDetails 
-                key = {event.id}
-                location={event.location}
-                date={event.date}
-                description={event.description}
-                action={postEvent}
-                actionText="Request to Join"
-            />
-        </SafeAreaView>
+        <GestureDetector gesture={fling}>
+            <SafeAreaView style={styles.container} RefreshControl={<RefreshControl refreshing={event} onRefresh={onRefresh} />}>
+                <Header />
+                <UserImage picture={host.picture} />
+                <EventDetails
+                    key={event.id}
+                    location={event.location}
+                    date={event.date}
+                    description={event.description}
+                    action={postEvent}
+                    actionText="Request to Join"
+                />
+            </SafeAreaView>
+        </GestureDetector>
     )
 }
 

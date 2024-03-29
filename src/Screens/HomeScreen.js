@@ -8,6 +8,7 @@ import Header from '../components/Header';
 import ActionButton from '../components/ActionButton';
 import EventPreview from '../components/EventPreview';
 import { ScrollView } from "react-native-gesture-handler";
+import { useIsFocused } from '@react-navigation/native';
 
 const HomeScreen = () => {
     const [hostingEvents, setHostingEvents] = useState([]);
@@ -16,11 +17,12 @@ const HomeScreen = () => {
     const [hasError, setHasError] = useState(false);
     const [change, setChange] = useState(0);
     const navigation = useNavigation();
+    const isFocused = useIsFocused();
+    const [newNavigation, setNewNavigation] = useState(false);
 
     const fetchEvents = async (event) => {
         try {
             const token = await AsyncStorage.getItem('token')
-            console.log(token)
             const hostingEventsResponse = await axios.get("http://localhost:5001/events/user/hosting-events", {
                 headers: {
                     authorization: `Bear ${token}`
@@ -37,15 +39,25 @@ const HomeScreen = () => {
             setUpcomingEvents(upcomingEventsResponse.data);
             setIsLoading(false);
         } catch (error) {
-            console.log(error.response.data);
             setIsLoading(false);
             setHasError(true);
         }
     }
 
+    //if the isfocus is reset to true the set newnavigation to true only once
     useEffect(() => {
-        fetchEvents();
-    }, [change]);
+        if(isFocused) {
+            setNewNavigation(true);
+        }
+    }, [isFocused]);
+
+    //call this once when new navigation is true and we are on the screen
+    useEffect(() => {
+        if(isFocused && newNavigation) {
+            fetchEvents();
+            setNewNavigation(false);
+        }
+    }, [isFocused, newNavigation]);
 
     const handleCreateEvent = () => {
         navigation.navigate('CreateEvent')
@@ -66,7 +78,6 @@ const HomeScreen = () => {
     if (isLoading) {
         return <Text>Is Loading...</Text>;
     }
-    console.log(hostingEvents);
 
     return (
         <SafeAreaView style={styles.container}>

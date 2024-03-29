@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { colors, spacing, fontSize } from '../styles/styles';
 import ActionButton from './ActionButton';
 
@@ -11,14 +11,28 @@ const EventDetails = ({ location, date, description, action, actionText }) => {
         month: "long",
         day: "numeric"
     }
-    let formattedDate = dateFormatted.toLocaleString("en-US", options)
+    let formattedDate = dateFormatted.toLocaleString("en-US", options);
+
+    const createAlert = () => {
+        Alert.alert("Are you sure?", "Don't be that flakey friend", [
+            {
+                text: 'Cancel',
+                onPress: () => {}
+            },
+            {
+                text: 'Confirm',
+                onPress: () => {action("Pending")},
+            }
+        ])
+    }
 
     return (
         <View style={styles.container}>
             <Text style={styles.detail}>Date: {formattedDate}</Text>
             <Text style={styles.detail}>Location: {location}</Text>
             <Text style={styles.detail}>Description: {description}</Text>
-            <TouchableOpacity style={styles.button} onPress={() => action("Pending")}>
+            {/*<TouchableOpacity style={styles.button} onPress={() => action("Pending")}>*/}
+            <TouchableOpacity style={styles.button} onPress={createAlert}>
                 <Text style={styles.buttonText}>{actionText}</Text>
             </TouchableOpacity>
         </View>

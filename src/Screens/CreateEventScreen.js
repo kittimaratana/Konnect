@@ -46,8 +46,6 @@ const CreateEventScreen = () => {
 
         if (fieldError === false) {
             try {
-
-                console.log(`${[eventDate.toLocaleDateString('en-CA', options), location, maxGuests, description]}`);
                 const token = await AsyncStorage.getItem('token');
                 await axios.post("http://localhost:5001/events", {
                     date: eventDate.toLocaleDateString('en-CA', options),
@@ -66,7 +64,6 @@ const CreateEventScreen = () => {
             } catch (error) {
                 setSuccess(false);
                 setError(error.response.data);
-                console.log(error.response.data);
             }
         }
     }
