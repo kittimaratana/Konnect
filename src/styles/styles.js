@@ -20,14 +20,16 @@ export const spacing = {
     margin: 16,
     padding: 16,
     component: 16,
-    gutter: 8
+    gutter: 8,
+    lineHeight: 2
 };
 
 //fontsize
 export const fontSize = {
+    nameIntro: 30,
     header: 22,
     sectionHeader: 16,
-    fields: 14,
+    fields: 18,
     body: 12,
 };
 

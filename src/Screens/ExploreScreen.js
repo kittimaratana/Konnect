@@ -79,9 +79,7 @@ const ExploreScreen = () => {
     if (isLoading) {
         return <Text>Is Loading...</Text>;
     }
-
-    console.log(`http://localhost:5001${host.picture}`)
-
+    
     return (
         <SafeAreaView style={styles.container} RefreshControl={<RefreshControl refreshing={event} onRefresh={onRefresh} />}>
             <Header />

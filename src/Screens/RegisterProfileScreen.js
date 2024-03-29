@@ -7,6 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { colors, spacing, fontSize, form } from '../styles/styles';
 import ActionButton from '../components/ActionButton';
 import * as ImagePicker from 'expo-image-picker';
+import uuid from 'react-native-uuid';
 
 const RegisterProfileScreen = ({ route }) => {
     const { handleLogin } = route.params;
@@ -63,20 +64,32 @@ const RegisterProfileScreen = ({ route }) => {
             day: '2-digit'
         }
 
+        const pictureName = `${uuid.v4()}.jpg`;
+        console.log(pictureName);
+
+        const formData = new FormData();
+        formData.append('picture', {
+            name: pictureName,
+            uri: picture,
+            type: 'image/jpg'
+        })
+        formData.append('gender', gender);
+        formData.append('birthday', birthday.toLocaleDateString('en-CA', options));
+        formData.append('career', career);
+        formData.append('city', city);
+        formData.append('interests', interests);
+        formData.append('bio', bio);
+        formData.append('pet_peeves', petPeeves);
+        formData.append('picture_name', pictureName);
+
         if (fieldError === false) {
+
             try {
                 const token = await AsyncStorage.getItem('token');
-                await axios.put("http://localhost:5001/users", {
-                    gender: gender,
-                    birthday: birthday.toLocaleDateString('en-CA', options),
-                    career: career,
-                    city: city,
-                    interests: interests,
-                    picture: picture,
-                    bio: bio,
-                    pet_peeves: petPeeves
-                }, {
+                await axios.put("http://localhost:5001/users", formData, {
                     headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'multipart/form-data',
                         authorization: `Bear ${token}`
                     }
                 });
@@ -88,6 +101,7 @@ const RegisterProfileScreen = ({ route }) => {
             } catch (error) {
                 setSuccess(false);
                 setError(error.response.data);
+                console.log(error.response.data);
             }
         }
     }
