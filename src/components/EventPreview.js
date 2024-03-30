@@ -1,9 +1,11 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { colors, spacing, fontSize } from '../styles/styles';
+import { useNavigation } from '@react-navigation/native';
 
-const EventPreview = ({ eventId, picture, date, location, maxGuests, description, status }) => {
+const EventPreview = ({ eventId, picture, date, location, maxGuests, description, status, guestType }) => {
     const dateFormatted = new Date(date);
+    const navigation = useNavigation();
 
     const options = {
         year: "numeric",
@@ -11,6 +13,10 @@ const EventPreview = ({ eventId, picture, date, location, maxGuests, description
         day: "numeric"
     }
     let formattedDate = dateFormatted.toLocaleString("en-US", options)
+
+    const handleViewEvent = () => {
+        navigation.navigate('ViewEvent', {eventId, guestType});
+    }
 
     return (
         <View style={styles.container}>
@@ -26,7 +32,7 @@ const EventPreview = ({ eventId, picture, date, location, maxGuests, description
                     <Text style={styles.detail}>Date: {formattedDate}</Text>
                 </View>
                 <Text style={styles.detail}>Location: {location}</Text>
-                <TouchableOpacity style={styles.button} onPress={() => action("Pending")}>
+                <TouchableOpacity style={styles.button} onPress={handleViewEvent}>
                     <Text style={styles.buttonText}>⏩️</Text>
                 </TouchableOpacity>
             </View>

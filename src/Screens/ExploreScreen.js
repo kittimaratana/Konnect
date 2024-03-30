@@ -90,7 +90,7 @@ const ExploreScreen = () => {
         <GestureDetector gesture={fling}>
             <SafeAreaView style={styles.container} RefreshControl={<RefreshControl refreshing={event} onRefresh={onRefresh} />}>
                 <Header />
-                <UserImage picture={host.picture} userId={host.id}/>
+                <UserImage picture={host.picture} userId={host.id} width='100%' height='65%'/>
                 <EventDetails
                     key={event.id}
                     location={event.location}

@@ -100,6 +100,7 @@ const HomeScreen = () => {
                             maxGuests={hostingEvent.max_guests}
                             description={hostingEvent.description}
                             status={hostStatus}
+                            guestType="Host"
                         />
                     );
                 })}
@@ -118,6 +119,7 @@ const HomeScreen = () => {
                             maxGuests={upcomingEvent.max_guests}
                             description={upcomingEvent.description}
                             status={upcomingEvent.status}
+                            guestType="Guest"
                         />
                     );
                 })}

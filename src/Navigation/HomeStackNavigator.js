@@ -1,6 +1,8 @@
 import React from 'react';
 import HomeScreen from '../screens/HomeScreen'
 import CreateEventScreen from '../screens/CreateEventScreen'
+import ViewEventScreen from '../screens/ViewEventScreen'
+import ViewProfileScreen from '../screens/ViewProfileScreen'
 import { createStackNavigator } from '@react-navigation/stack';
 
 const HomeStackNavigator = () => {
@@ -10,6 +12,8 @@ const HomeStackNavigator = () => {
     <HomeStack.Navigator>
       <HomeStack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
       <HomeStack.Screen name="CreateEvent" component={CreateEventScreen} options={{ headerShown: false }} />
+      <HomeStack.Screen name="ViewEvent" component={ViewEventScreen} options={{ headerShown: false }} />
+      <HomeStack.Screen name="ViewOtherProfile" component={ViewProfileScreen} options={{ headerShown: false }} />
     </HomeStack.Navigator>
   )
 }
