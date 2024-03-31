@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { colors, spacing, fontSize } from '../styles/styles';
 import { useNavigation } from '@react-navigation/native';
 
-const EventPreview = ({ eventId, picture, date, location, maxGuests, description, status, guestType }) => {
+const EventPreview = ({ eventId, picture, date, location, status, guestType }) => {
     const dateFormatted = new Date(date);
     const navigation = useNavigation();
 
@@ -47,8 +47,6 @@ const styles = StyleSheet.create({
         paddingVertical: spacing.component,
         flexDirection: 'row',
         width: '100%',
-        borderTopWidth: 1,
-        borderTopColor: colors.lightPurple
     },
     imageContainer: {
         width: '20%',

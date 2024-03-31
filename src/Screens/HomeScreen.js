@@ -1,11 +1,10 @@
 import { useState, useEffect, React } from "react";
-import { View, Text, SafeAreaView, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { Text, SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation } from '@react-navigation/native';
 import axios from "axios";
-import { colors, spacing, fontSize, form } from '../styles/styles';
+import { colors, spacing, fontSize } from '../styles/styles';
 import Header from '../components/Header';
-import ActionButton from '../components/ActionButton';
 import EventPreview from '../components/EventPreview';
 import { ScrollView } from "react-native-gesture-handler";
 import { useIsFocused } from '@react-navigation/native';
@@ -15,11 +14,11 @@ const HomeScreen = () => {
     const [upcomingEvents, setUpcomingEvents] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [hasError, setHasError] = useState(false);
-    const [change, setChange] = useState(0);
     const navigation = useNavigation();
     const isFocused = useIsFocused();
     const [newNavigation, setNewNavigation] = useState(false);
 
+    //fetch list of events user is hosting and list of events user status is going or pending
     const fetchEvents = async (event) => {
         try {
             const token = await AsyncStorage.getItem('token')
@@ -44,30 +43,24 @@ const HomeScreen = () => {
         }
     }
 
-    //if the isfocus is reset to true the set newnavigation to true only once
+    //with react applications, the screen is not reloaded when navigated to so to ensure data is reloading with new ones, we must check if the user just navigated to the screen and the screen is only refreshed once
     useEffect(() => {
-        if(isFocused) {
+        if (isFocused) {
             setNewNavigation(true);
         }
     }, [isFocused]);
 
-    //call this once when new navigation is true and we are on the screen
     useEffect(() => {
-        if(isFocused && newNavigation) {
+        if (isFocused && newNavigation) {
             fetchEvents();
             setNewNavigation(false);
         }
     }, [isFocused, newNavigation]);
 
+    //navigate to create new event
     const handleCreateEvent = () => {
         navigation.navigate('CreateEvent')
     }
-
-    /*
-    const handleChanges = () => {
-        setChange(change+1)
-    }
-    */
 
     if (hasError) {
         return (
@@ -79,17 +72,20 @@ const HomeScreen = () => {
         return <Text>Is Loading...</Text>;
     }
 
+    //displays list of hosting, upcoming events and ability to create new event
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView>
                 <Header />
-                <Text style={styles.title}>Events I'm Hosting</Text>
+                <View style={styles.border} />
+                <View style={styles.titleContainer}>
+                    <Text style={styles.title}>Hosting Events</Text>
+                </View>
                 {hostingEvents.map((hostingEvent) => {
                     let hostStatus = "New Requests!";
                     if (hostingEvent.pendingStatus === "false") {
                         hostStatus = "View Event"
                     }
-
                     return (
                         <EventPreview
                             key={hostingEvent.id}
@@ -97,17 +93,19 @@ const HomeScreen = () => {
                             picture={hostingEvent.picture}
                             date={hostingEvent.date}
                             location={hostingEvent.location}
-                            maxGuests={hostingEvent.max_guests}
-                            description={hostingEvent.description}
                             status={hostStatus}
                             guestType="Host"
                         />
                     );
                 })}
+                {hostingEvents.length === 0 && <Text style={styles.noEventsMessage}>No upcoming events that you are hosting</Text>}
                 <TouchableOpacity style={styles.button} onPress={handleCreateEvent}>
                     <Text style={styles.buttonText}>Create Event</Text>
                 </TouchableOpacity>
-                <Text style={styles.title}>Upcoming Events</Text>
+                <View style={styles.border} />
+                <View style={styles.titleContainer}>
+                    <Text style={styles.title}>Upcoming Events</Text>
+                </View>
                 {upcomingEvents.map((upcomingEvent) => {
                     return (
                         <EventPreview
@@ -123,6 +121,7 @@ const HomeScreen = () => {
                         />
                     );
                 })}
+                {upcomingEvents.length === 0 && <Text style={styles.noEventsMessage}>Events will appear as you request to join</Text>}
             </ScrollView>
         </SafeAreaView>
     )
@@ -133,11 +132,24 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: colors.white,
     },
+    border: {
+        width: '100%',
+        borderWidth: 1,
+        borderColor: colors.borderLightPurple
+    },
+    titleContainer: {
+        paddingBottom: spacing.component
+    },
     title: {
         paddingHorizontal: spacing.margin,
         fontSize: fontSize.header,
         color: colors.purpleButton,
-        marginBottom: spacing.margin
+        marginTop: spacing.component,
+        fontWeight: '800'
+    },
+    noEventsMessage: {
+        paddingHorizontal: spacing.margin,
+        paddingBottom: spacing.component
     },
     settingOption: {
         paddingHorizontal: spacing.margin,
@@ -150,9 +162,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-end',
         paddingHorizontal: spacing.margin,
+        paddingBottom: spacing.component
     },
     buttonText: {
-        color: colors.purpleButton
+        color: colors.purpleButton,
+        fontWeight: '500'
     }
 });
 export default HomeScreen;

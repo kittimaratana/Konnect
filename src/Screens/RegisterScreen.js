@@ -89,7 +89,7 @@ const RegisterScreen = () => {
                     ]}
                         value={firstName}
                         onChangeText={(text) => setFirstName(text)}
-                        placeholder="Enter First Name"
+                        placeholder="Enter first name"
                     />
                     {hasSubmit && firstName === "" ? <Text style={styles.errorMessage}>*Please enter your first name</Text> : null}
                     <Text style={form.input}>Last Name</Text>
@@ -99,7 +99,7 @@ const RegisterScreen = () => {
                     ]}
                         value={lastName}
                         onChangeText={(text) => setLastName(text)}
-                        placeholder="Enter Last Name"
+                        placeholder="Enter last name"
                     />
                     {hasSubmit && lastName === "" ? <Text style={styles.errorMessage}>*Please enter your last name</Text> : null}
                     <Text style={form.input}>Email</Text>
@@ -109,7 +109,7 @@ const RegisterScreen = () => {
                     ]}
                         value={email}
                         onChangeText={(text) => setEmail(text)}
-                        placeholder="Enter Email"
+                        placeholder="Enter email"
                     />
                     {hasSubmit && email === "" ? <Text style={styles.errorMessage}>*Please enter your email address</Text> : null}
                     {hasSubmit && email !== "" && !emailValidation(email) ? <Text style={styles.errorMessage}>*Please enter a valid email address</Text> : null}
