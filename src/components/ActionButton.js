@@ -6,7 +6,7 @@ import {colors, spacing, fontSize} from '../styles/styles';
 const ActionButton = ({style, onPress, title, textColor }) => {
     return (
         <TouchableOpacity style={[styles.container, style]} onPress={onPress}>
-            <Text style={{color: textColor || colors.black}}>{title}</Text>
+            <Text style={[styles.buttonColor, {color: textColor}]}>{title}</Text>
         </TouchableOpacity>
     )
 }
@@ -19,6 +19,10 @@ const styles = StyleSheet.create({
         backgroundColor: colors.purpleButton,
         borderRadius: 16,
         fontSize: fontSize.body,
+    },
+    buttonColor: {
+        color: colors.black,
+        fontSize: fontSize.fields
     }
 
 });

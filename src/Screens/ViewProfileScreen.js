@@ -12,6 +12,8 @@ const ViewProfileScreen = ({ route }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [hasError, setHasError] = useState(false);
 
+    //if userId is provided in params, fetch user based on userId
+    //otherwise fetch the current user that is logged in
     const fetchUser = async () => {
         try {
             const token = await AsyncStorage.getItem('token')
@@ -37,14 +39,12 @@ const ViewProfileScreen = ({ route }) => {
                 setIsLoading(false);
             }
         } catch (error) {
-            console.log(error.response.data);
             setIsLoading(false);
             setHasError(true);
         }
     }
 
     useEffect(() => {
-        // Fetching events for user
         fetchUser();
     }, []);
 
@@ -58,6 +58,7 @@ const ViewProfileScreen = ({ route }) => {
         return <Text>Is Loading...</Text>;
     }
 
+    //call view profile component passing user details prop
     return (
         <ViewProfile navigation={navigation} user={user}/>
     )

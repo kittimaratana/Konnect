@@ -5,27 +5,28 @@ import { StyleSheet } from 'react-native';
 import ActionButton from '../components/ActionButton';
 import {colors, spacing, fontSize} from '../styles/styles';
 
-const IntroScreen = ({ route }) => {
-    const { handleLogin } = route.params;
+//intro screen with ability to navigate to login or new account screen
+const IntroScreen = () => {
     const navigation = useNavigation();
 
     const navigateToLogin = () => {
-        navigation.navigate('Login', { handleLogin: handleLogin })
+        navigation.navigate('Login')
     }
 
     const navigateToRegister = () => {
-        navigation.navigate('Register', { handleLogin: handleLogin })
+        navigation.navigate('Register')
     }
 
+    //UI for Intro page and customized button styling from ActionButton component
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.titleContainer}>
                 <Text style={styles.title}>Konnect</Text>
-                <Text>👉 🏈 ♓ 🎶 🎭 🌸</Text>
+                <Text style={styles.emojis}>👉    🏈    ♓    🎶    🎭    🌸</Text>
             </View>
             <View style={styles.actionContainer}>
-                <ActionButton onPress={navigateToLogin} title="Login"/>
-                <ActionButton style={styles.actionGap} onPress={navigateToRegister} title="Register" />
+                <ActionButton onPress={navigateToLogin} title="Login" textColor={colors.white}/>
+                <ActionButton style={styles.registerButton} onPress={navigateToRegister} title="New Account" />
             </View>
         </SafeAreaView >
     )
@@ -45,7 +46,10 @@ const styles = StyleSheet.create({
     },
     title: {
         marginBottom: spacing.component,
-        fontSize: fontSize.header
+        fontSize: fontSize.nameIntro
+    },
+    emojis: {
+        marginTop: spacing.component
     },
     actionContainer: {
         width: '100%',
@@ -53,13 +57,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         paddingHorizontal: spacing.margin,
-
     },
-    actionGap: {
+    registerButton: {
         marginTop: spacing.component,
-        backgroundColor: '#e3cef6'
+        backgroundColor: colors.lightPurple
     }
-
 });
 
 export default IntroScreen;

@@ -10,7 +10,7 @@ const HomeStackNavigator = () => {
 
   return (
     <HomeStack.Navigator>
-      <HomeStack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+      <HomeStack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
       <HomeStack.Screen name="CreateEvent" component={CreateEventScreen} options={{ headerShown: false }} />
       <HomeStack.Screen name="ViewEvent" component={ViewEventScreen} options={{ headerShown: false }} />
       <HomeStack.Screen name="ViewOtherProfile" component={ViewProfileScreen} options={{ headerShown: false }} />

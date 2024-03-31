@@ -1,8 +1,8 @@
 import { useState, useEffect, React } from "react";
-import { ScrollView, View, Text, RefreshControl, FlatList, StyleSheet, Image, SafeAreaView } from 'react-native';
+import { Text, RefreshControl, StyleSheet, SafeAreaView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from "axios";
-import { colors, spacing, fontSize, form } from '../styles/styles';
+import { colors} from '../styles/styles';
 import Header from '../components/Header';
 import UserImage from '../components/UserImage';
 import EventDetails from '../components/EventDetails';
@@ -14,6 +14,7 @@ const ExploreScreen = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [hasError, setHasError] = useState(false);
 
+    //fetch event that user has not seen and event host infromation
     const fetchEvent = async () => {
         try {
             const token = await AsyncStorage.getItem('token')
@@ -33,13 +34,13 @@ const ExploreScreen = () => {
             setHost(hostResponse.data);
             setIsLoading(false);
         } catch (error) {
-            console.log(error.response.data);
             setIsLoading(false);
             setHasError(true);
         }
     }
 
-    //status either Uninterested or Pending
+    //based on if user is interested (clicked request to join) or uninterested (left swipe), event attendance status is posted to the server
+    //event status initially for guest can be uninterested or pending
     const postEvent = async (status) => {
         try {
             const token = await AsyncStorage.getItem('token')
@@ -62,13 +63,8 @@ const ExploreScreen = () => {
     }
 
     useEffect(() => {
-        // Fetching events for user
         fetchEvent();
     }, []);
-
-    const onRefresh = () => {
-        fetchEvent();
-    }
 
     const handleSwipeLeft = () => {
         postEvent("Uninterested");
@@ -86,9 +82,10 @@ const ExploreScreen = () => {
 
     const fling = Gesture.Fling().direction(Directions.LEFT).onEnd(handleSwipeLeft);
 
+    //display user image and event details for user to view
     return (
         <GestureDetector gesture={fling}>
-            <SafeAreaView style={styles.container} RefreshControl={<RefreshControl refreshing={event} onRefresh={onRefresh} />}>
+            <SafeAreaView style={styles.container}>
                 <Header />
                 <UserImage picture={host.picture} userId={host.id} width='100%' height='65%'/>
                 <EventDetails
@@ -116,7 +113,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'flex-start',
     }
-
 });
 
 export default ExploreScreen;

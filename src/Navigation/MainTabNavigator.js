@@ -15,7 +15,7 @@ const MainTabNavigator = () => {
           name="Home" 
           component={HomeStackNavigator} 
           options={{
-            //tabBarLabel: 'Home',
+            tabBarShowLabel: false,
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="home" color={color} size={size} />
             ),
@@ -26,7 +26,7 @@ const MainTabNavigator = () => {
           name="Explore" 
           component={ExploreStackNavigator} 
           options={{
-            //tabBarLabel: 'Magnify',
+            tabBarShowLabel: false,
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="magnify" color={color} size={size} />
             ),
@@ -37,7 +37,7 @@ const MainTabNavigator = () => {
           name="Message" 
           component={MessageScreen} 
           options={{
-            //tabBarLabel: 'Message',
+            tabBarShowLabel: false,
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="message" color={color} size={size} />
             ),
@@ -45,10 +45,10 @@ const MainTabNavigator = () => {
           }}
           />
         <MainTab.Screen 
-          name="Setting" 
+          name="SettingTab" 
           component={SettingsStackNavigator} 
           options={{
-            //tabBarLabel: 'Account',
+            tabBarShowLabel: false,
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="account-circle" color={color} size={size} />
             ),

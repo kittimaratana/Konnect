@@ -1,5 +1,5 @@
 import { useState, React } from 'react';
-import { View, Text, TextInput, SafeAreaView, StyleSheet, TouchableOpacity, ScrollView, Button, Image } from 'react-native';
+import { View, Text, TextInput, SafeAreaView, StyleSheet, TouchableOpacity, ScrollView, Image } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useNavigation } from '@react-navigation/native';
 import axios from "axios";
@@ -9,8 +9,7 @@ import ActionButton from '../components/ActionButton';
 import * as ImagePicker from 'expo-image-picker';
 import uuid from 'react-native-uuid';
 
-const RegisterProfileScreen = ({ route }) => {
-    const { handleLogin } = route.params;
+const RegisterProfileScreen = () => {
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
     const navigation = useNavigation();
@@ -25,30 +24,38 @@ const RegisterProfileScreen = ({ route }) => {
     const [hasSubmit, setHasSubmit] = useState(false);
     const [showDatePicker, setShowDatePicker] = useState(false);
 
+    //if user clicks back button
     const handleBack = () => {
         navigation.goBack();
     }
 
+    //if birthday was provided then the date picker will be hidden
     const onChange = (event, selectedDate) => {
         setShowDatePicker(false);
         setBirthday(selectedDate);
     };
 
+    //check if user is 18 or older
+    const validBirthday = (birthday) => {
+        const currentDate = new Date();
+        const millisecondsToYear = 1000 * 60 * 60 * 24 * 365;
+        if((currentDate - birthday)/millisecondsToYear < 18) {
+            return (false)
+        }
+        return (true)
+    }
+
+    //currently no picture request right now but this module from react native expo helps obtain picture from mobile that is exported to server
     const pickImage = async () => {
-        // No permissions request is necessary for launching the image library
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All,
-            allowsEditing: true,
-            aspect: [4, 3],
-            quality: 1,
-        });
+        let result = await ImagePicker.launchImageLibraryAsync({mediaTypes: ImagePicker.MediaTypeOptions.All, allowsEditing: true, aspect: [4, 3], quality: 1,});
 
         if (!result.canceled) {
             setPicture(result.assets[0].uri);
         }
     };
 
-    //add validation after
+    //check user input validation
+    //future implementation: add additional validation for city, additional picures 
     const handleRegister = async (event) => {
         event.preventDefault();
         setHasSubmit(true);
@@ -58,6 +65,11 @@ const RegisterProfileScreen = ({ route }) => {
             fieldError = true;
         }
 
+        if (!validBirthday(birthday)) {
+            fieldError = true;
+        }
+
+        //convert date to format server looks for and add attributes to form data to handle image export
         const options = {
             year: 'numeric', 
             month: '2-digit',
@@ -65,9 +77,9 @@ const RegisterProfileScreen = ({ route }) => {
         }
 
         const pictureName = `${uuid.v4()}.jpg`;
-        console.log(pictureName);
 
         const formData = new FormData();
+
         formData.append('picture', {
             name: pictureName,
             uri: picture,
@@ -83,7 +95,6 @@ const RegisterProfileScreen = ({ route }) => {
         formData.append('picture_name', pictureName);
 
         if (fieldError === false) {
-
             try {
                 const token = await AsyncStorage.getItem('token');
                 await axios.put("http://localhost:5001/users", formData, {
@@ -96,12 +107,10 @@ const RegisterProfileScreen = ({ route }) => {
 
                 setSuccess(true);
                 setError(null);
-                handleLogin();
                 navigation.navigate('Main');
             } catch (error) {
                 setSuccess(false);
                 setError(error.response.data);
-                console.log(error.response.data);
             }
         }
     }
@@ -119,7 +128,9 @@ const RegisterProfileScreen = ({ route }) => {
                 ]}
                     value={gender}
                     onChangeText={(text) => setGender(text)}
+                    placeholder="i.e., Female, Nonbinary"
                 />
+                {hasSubmit && gender === "" ? <Text style={styles.errorMessage}>*Please enter your gender</Text> : null}
                 <Text style={form.input}>Birthday</Text>
                 {showDatePicker && (
                     <DateTimePicker
@@ -132,6 +143,7 @@ const RegisterProfileScreen = ({ route }) => {
                 <TouchableOpacity style={form.field} onPress={() => setShowDatePicker(true)} >
                     <Text >{birthday.toDateString()}</Text>
                 </TouchableOpacity>
+                {hasSubmit && !validBirthday(birthday) ? <Text style={styles.errorMessage}>*You must be 18 years old or over to use the app</Text> : null}
                 <Text style={form.input}>Career</Text>
                 <TextInput style={[
                     form.field,
@@ -139,7 +151,9 @@ const RegisterProfileScreen = ({ route }) => {
                 ]}
                     value={career}
                     onChangeText={(text) => setCareer(text)}
+                    placeholder="i.e., Software engineer, Student"
                 />
+                {hasSubmit && career === "" ? <Text style={styles.errorMessage}>*Please enter your career</Text> : null}
                 <Text style={form.input}>City</Text>
                 <TextInput style={[
                     form.field,
@@ -147,39 +161,45 @@ const RegisterProfileScreen = ({ route }) => {
                 ]}
                     value={city}
                     onChangeText={(text) => setCity(text)}
+                    placeholder="i.e., Toronto"
                 />
+                {hasSubmit && city === "" ? <Text style={styles.errorMessage}>*Please enter your city</Text> : null}
                 <Text style={form.input}>Interests</Text>
                 <TextInput style={[
                     form.field,
                     hasSubmit && interests === "" ? styles.error : null,
                 ]}
-                    placeholder="i.e., singing, fitness, travelling..."
                     value={interests}
                     onChangeText={(text) => setInterests(text)}
+                    placeholder="i.e., Singing, Fitness, Travelling..."
                 />
+                {hasSubmit && interests === "" ? <Text style={styles.errorMessage}>*Please enter your interests</Text> : null}
                 <Text style={form.input}>Picture</Text>
                 {picture && 
                     <Image source={{uri: picture}} style={styles.formPicture} />
                 }
                 <Text style={styles.buttonPicture} onPress={pickImage}>New Picture</Text>
+                {hasSubmit && !picture ? <Text style={styles.errorMessage}>*Please add a picture</Text> : null}
                 <Text style={form.input}>Bio</Text>
                 <TextInput style={[
                     form.field,
                     hasSubmit && bio === "" ? styles.error : null,
                 ]}
-                    placeholder="Add your story"
                     value={bio}
                     onChangeText={(text) => setBio(text)}
+                    placeholder="Add your story"
                 />
+                {hasSubmit && bio === "" ? <Text style={styles.errorMessage}>*Please enter your bio</Text> : null}
                 <Text style={form.input}>Pet Peeves</Text>
                 <TextInput style={[
                     form.field,
                     hasSubmit && petPeeves === "" ? styles.error : null,
                 ]}
-                    placeholder="i.e., slow walkers"
                     value={petPeeves}
                     onChangeText={(text) => setPetPeeves(text)}
+                    placeholder="i.e., Slow Walkers"
                 />
+                {hasSubmit && petPeeves === "" ? <Text style={styles.errorMessage}>*Please enter your pet peeves</Text> : null}
                 <View style={styles.actionContainer}>
                     <ActionButton style={styles.backButton} onPress={handleBack} title="Back" />
                     <ActionButton style={styles.registerButton} textColor={colors.white} onPress={handleRegister} title="Register" />
@@ -232,15 +252,16 @@ const styles = StyleSheet.create({
     registerButton: {
         width: '48%'
     },
-    error: {
+    errorInputBorder: {
         borderWidth: 1,
         borderColor: colors.redError
     },
-    errorPassword: {
+    errorMessage: {
         marginTop: spacing.component,
-        color: colors.redError
+        color: colors.redError,
+        width: '100%',
+        textAlign: 'left'
     }
-
 });
 
 export default RegisterProfileScreen;

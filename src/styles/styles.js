@@ -5,7 +5,8 @@ import { StyleSheet } from 'react-native';
 export const colors = {
     white: '#FFFFFF',
     black: '#0A0A0A',
-    lightPurple: '#E3CEF6', 
+    borderLightPurple: '#E3CEF6', 
+    lightPurple: '#DCA3FF', 
     darkPurple: '#5B0BAB',
     pink: '#F5B3F0',
     blue: '#3B50ED',
@@ -20,6 +21,7 @@ export const spacing = {
     margin: 16,
     padding: 16,
     component: 16,
+    formFields: 12,
     gutter: 8,
     lineHeight: 2
 };
@@ -29,7 +31,8 @@ export const fontSize = {
     nameIntro: 30,
     header: 22,
     sectionHeader: 16,
-    fields: 18,
+    fields: 16,
+    bodyMedium: 14,
     body: 12,
 };
 
@@ -37,19 +40,19 @@ export const fontSize = {
 export const form = StyleSheet.create({
     input: {
         width: '100%',
-        paddingHorizontal: spacing.padding,
+        paddingHorizontal: spacing.gutter,
         paddingBottom: spacing.gutter,
         paddingTop: spacing.component,
         alignItems: 'flex-start',
-        fontSize: fontSize.fields
+        fontSize: fontSize.fields,
+        color: colors.gray
     },
     field: {
         width: '100%',
-        padding: spacing.padding,
-        alignItems: 'center',
-        justifyContent: 'flex-start',
+        padding: spacing.formFields,
         backgroundColor: colors.white,
-        borderRadius: 16,
-        fontSize: fontSize.fields
+        borderRadius: 8,
+        fontSize: fontSize.fields,
+        backgroundColor: colors.borderLightPurple
     }
 });

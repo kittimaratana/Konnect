@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { colors, spacing, fontSize } from '../styles/styles';
-import ActionButton from './ActionButton';
 
 const EventDetails = ({ location, date, description, action, actionText }) => {
-    const dateFormatted = new Date(date);
 
+    //format date to display
+    const dateFormatted = new Date(date);
     const options = {
         year: "numeric",
         month: "long",
@@ -13,25 +13,26 @@ const EventDetails = ({ location, date, description, action, actionText }) => {
     }
     let formattedDate = dateFormatted.toLocaleString("en-US", options);
 
+    //alert to confirm request to attend
     const createAlert = () => {
         Alert.alert("Are you sure?", "Don't be that flakey friend", [
             {
                 text: 'Cancel',
-                onPress: () => {}
+                onPress: () => { }
             },
             {
                 text: 'Confirm',
-                onPress: () => {action("Pending")},
+                onPress: () => { action("Pending") },
             }
         ])
     }
 
+    //event details UI and request to join button/alert
     return (
         <View style={styles.container}>
             <Text style={styles.detail}>Date: {formattedDate}</Text>
             <Text style={styles.detail}>Location: {location}</Text>
             <Text style={styles.detail}>Description: {description}</Text>
-            {/*<TouchableOpacity style={styles.button} onPress={() => action("Pending")}>*/}
             <TouchableOpacity style={styles.button} onPress={createAlert}>
                 <Text style={styles.buttonText}>{actionText}</Text>
             </TouchableOpacity>
@@ -46,14 +47,16 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     detail: {
-        marginBottom: spacing.gutter
+        marginBottom: spacing.gutter,
+        fontSize: fontSize.bodyMedium
     },
     button: {
         flexDirection: 'row',
         justifyContent: 'flex-end',
     },
     buttonText: {
-        color: colors.purpleButton
+        color: colors.purpleButton,
+        fontWeight: '500'
     }
 });
 
