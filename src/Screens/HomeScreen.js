@@ -98,7 +98,7 @@ const HomeScreen = () => {
                         />
                     );
                 })}
-                {hostingEvents.length === 0 && <Text style={styles.noEventsMessage}>No upcoming events that you are hosting</Text>}
+                {hostingEvents.length === 0 && <Text style={styles.noEventsMessage}>No upcoming events</Text>}
                 <TouchableOpacity style={styles.button} onPress={handleCreateEvent}>
                     <Text style={styles.buttonText}>Create Event</Text>
                 </TouchableOpacity>
@@ -121,7 +121,7 @@ const HomeScreen = () => {
                         />
                     );
                 })}
-                {upcomingEvents.length === 0 && <Text style={styles.noEventsMessage}>Events will appear as you request to join</Text>}
+                {upcomingEvents.length === 0 && <Text style={styles.noEventsMessage}>Request to join activities</Text>}
             </ScrollView>
         </SafeAreaView>
     )

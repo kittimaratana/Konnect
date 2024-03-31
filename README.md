@@ -7,30 +7,46 @@ Say hi to Konnect, the innovative networking app that fosters genuine connection
 
 ### Problem
 
-The need to belong and fit in is more crucial than ever. With the rise of technology and social media, coupled with global events like the COVID pandemic and modern work lifestyles, people are experiencing higher loneliness than before. The Meta-Gallup survey found that 1 in 4 adults worldwide has reported feeling lonely. While, there are applications like Bumble BFF, Linkedin and MeetUp, it's often challenging to establish lasting friendships with individuals who have different interests and can feel inauthentic. There are also "hubs" like Monday Girl and activity clubs, such as sports leagues, where you can meet others. However, these opportunities often entail upfront costs to join. 
+The need to belong and fit in is more crucial than ever. With the rise of technology and social media, coupled with global events like the COVID pandemic and modern work lifestyles, people are experiencing higher loneliness than ever. The Meta-Gallup survey found that 1 in 4 adults worldwide has reported feeling lonely. While, there are applications like Bumble BFF, Linkedin and MeetUp, it's often challenging to establish lasting friendships with individuals who have different interests and can feel inauthentic. There are also "hubs" like Monday Girl and activity clubs, such as sports leagues, where you can meet others. However, these opportunities often entail upfront costs to join. 
 
 ### User Profile
 
-In phase one, my target audience are Gen Z and Millenial users:
-    - looking for people close to their current location to meet
-    - looking to meet individuals with similar interests or goals
+In the first iteration of my application, my target audience are Gen Z and Millenial users:
+    - looking to meet people in their current location 
+    - looking to meet individuals with similar interests and bond over participating in these activities
+    - participate in new activites they have been meaning to try with others
 
-### Features -- talk more after
+### Features 
 
-- Ability to match with users who are similar to you (you define your interests and location)
-- Ability to post events or request to join event and owner accepts/closes posting 
-- Ability to view other people's profile
+- Important Mentions: 
+    - Authentication is not a priority for this iteration, however JWT tokens are used to ensure that user credentials are correct to pull server data that matches user credentials on database side (password not encrypted currently)
+    - Message tab is future focus, however high level UI design is shown
 
-<Update >
+- Login to my account
+- Register for an account
+- View current account profile/details 
+- Logout of my account
 
-- Login and customize profile
-- View user events and request to join
-- Post event and accept requests
-- Customize user details 
+- View events that I am hosting
+- View events that I am going to or have pending status to join event
+- Create New Event
+- View specific event details that I am attending/pending/hosting:
+    - If I am the host, I would like to know:
+        - What are the event details
+        - Which guests are going and viewing their details
+        - Which guests do I still need to approve/reject and whether I am compatible with them
+    - If I am a guest, I would like to know:
+        - What are the event details
+        - Which other guests are going and viewing their details
+        - If I have not been accepted yet and can longer attend, I would like to cancel the request to join
+
+- Explore new events and see details
+- View event host user details
+- State whether I am uninterested or interested in joining the event
 
 ## Implementation
 
-### Tech Stack (Explore)
+### Tech Stack
 
 - React
 - React Native
@@ -40,483 +56,439 @@ In phase one, my target audience are Gen Z and Millenial users:
 - Client libraries: 
     - react
     - react-router
+    - react-native (i.e., user interface components like View, uuid, DataTimePicker, useNavigation, gesture-handler, stacks/navigation)
+    - expo (i.e., MaterialCommunityIcons, ImagePicker)
     - axios
+    - asyncstorage for authentication
 - Server libraries:
     - knex
     - express
-    - bcrypt for password hashing
+    - jwt for authentication 
+    - multer for image handling 
+    - faker to import seed data 
 
 ### APIs
 
-- https://randomuser.me/ 
-- contains city, email, username, password, image, age 
-- no api_key required
+- no api used, profile data from faker and pexels free instock profile
 
 ### Sitemap 
--website map
 
-- Login/ Register
-- Profile Details
-- Home Page (Events)
-    - Request to Join 
-- View Events 
-- View List of Activities (Medium)
-- Setting (Very Basic Level)
-
-4 Tabs (See mockup)
--Home Page
--Events
--Activity
--Setting
-
-- Intro Sheet
-    - Login Sheet
-    - Register Sheet
-        - Register Details Sheet
-
-- Home Tab (Events Hosting, Upcoming Events)
-    - Create Event Sheet
-    - View 1 Event Hosting Details
-        - View 1 Guest Detail
-    - View 1 Event Upcoming Details
-- Explore Tab 
-- Message Tab 
-- Setting Tab
-    - Update Details Sheet
+- Intro Screen
+- Login Screen
+- Register Screen (Login Credentials)
+- Register Profile Screen (User Details)
+- Main 
+    - Home Tab
+        - Home Screen (View Upcoming/Hosting Events)
+        - Create Event Screen
+        - View Event Screen (View Event Details)
+        - View Other Profile Screen (View Guest/Host Profile)
+    - Explore Tab
+        - Explore Screen
+        - View Other Profile Screen (View Host Profile)
+    - Message Tab
+        - Message Screen
+    - Setting Tab
+        - Settings Screen
+        - View Profile Screen (View User Profile)
 
 ### Mockups
 
-Provide visuals of your app's screens. You can use tools like Figma or pictures of hand-drawn sketches.
---https://www.figma.com/file/aZCCzFtmRb08MxrzvP81i8/Konnect?type=whiteboard&node-id=0%3A1&t=49G8htkS27Nn0rD7-1
+https://www.figma.com/file/aZCCzFtmRb08MxrzvP81i8/Konnect?type=whiteboard&node-id=0%3A1&t=49G8htkS27Nn0rD7-1
 
 ### Data
 
-Describe your data and the relationships between them. You can show this visually using diagrams, or write it out. 
-
-userCredentials:
--id (primary, unique)
--name
--email
--password (hash)
--gender
--birthday 
--career
--city
--interests: store in array string
--pictures (one for now in link)
--bio
--petPeeves
-
-event_details (too)
--eventId (primary, unique)
--hostuserId (foreign)
--date ---- MODIFY NO TIME IN THE GETS
--location
--max_guests
--total_guests
--description
-
-userAttendance (includes host):
--attendanceId (primary key)
--eventId (foreign key)
--status (approved/declined/cancelled/pending/host)
--guestuserId
+https://www.figma.com/file/aZCCzFtmRb08MxrzvP81i8/Konnect?type=whiteboard&node-id=0%3A1&t=49G8htkS27Nn0rD7-1
 
 ### Endpoints
 
-**GET /user/login** >>
+**POST /auth/login** 
 
--Login a user 
+- Login a user 
 
 - Parameters:
-    - email: varchar but requires email validation
-    - password: varchar but contains validation
+    - email: user email
+    - password: user password
 
 Response: 
-
+```
 {
-    {
-    "token": "seyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6I..."
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA4NTNlNGU2LWNkYWMtNDAzNS1iMzMxLThjMDFjOWE3MTc3OCIsImlhdCI6MTcxMTkxOTE2NywiZXhwIjoxNzEyMDA1NTY3fQ.8E2O6Faw_9OVuWIM8_CsubiScR75S2POs3WlQJ_oNS0"
 }
-}
+```
 
-**POST /user/register** >>
+**POST /auth/register** 
 
--Create a new account 
+- Create a new account 
 
 - Parameters:
-    - first_name: varchar but name of user
-    - last_name: varchar but name of user
-    - email: varchar but requires email validation
-    - password: varchar but contains validation
-
-- default placeholders:
-    - gender: varchar with gender placeholder "No gender"
-    - birthday: date with birthday placeholder "2000-01-01"
-    - career: varchar with placeholder "No career"
-    - city: varchar with placeholder "No city"
-    - interests: varchar array string with placeholder "["eating, fitness]"
-    - "picture": varchar link with placeholder random profile image
-    - "bio" : varchar with placeholder "No bio"
-    - pet peeves: varchar with placeholder "No pet peeves"
+    - first_name: user first name
+    - last_name: user last name
+    - email: user email
+    - password: user password
 
 Response: 
-
+```
 {
-    "token": "seyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6I..."
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA4NTNlNGU2LWNkYWMtNDAzNS1iMzMxLThjMDFjOWE3MTc3OCIsImlhdCI6MTcxMTkxOTE2NywiZXhwIjoxNzEyMDA1NTY3fQ.8E2O6Faw_9OVuWIM8_CsubiScR75S2POs3WlQJ_oNS0"
 }
+```
 
-**GET user too**
+**Get /users/**
 
-**Get /user/:userIid** >>
-
--Get user details (own users or others)
+- Get user profile details 
 
 - Parameters:
-    - id: userId not token as we can get other users too
     - token: JWT of the logged in user
 
 Response: 
-
+```
 {
-    "id": 1
-    "first_name": "Kittima",    
+    "id": "076d6267-3110-46c2-9055-c8472801c78d",
+    "first_name": "Sandy",
+    "last_name": "Burley",
+    "email": "sandy.burley@gmail.com",
+    "gender": "Female",
+    "birthday": "2000-01-01T05:00:00.000Z",
+    "career": "No career listed",
+    "city": "Toronto",
+    "interests": "[No interests]",
+    "picture": "/images/0e09fea2-6bcc-4dd6-8cb6-d3e6473875df.jpg",
+    "bio": "No bio",
+    "pet_peeves": "No pet peeves"
+}
+```
+
+**PUT /users/** 
+
+- Update user details with comprehensive details like picture and bio added
+- Client end will convert user information into formData as it makes ingesting image data easier and send the formData as the parameter
+
+- Parameters: 
+    - gender: user gender (i.e., Female, Nonbinary)
+    - birthday: user birthday entered through date spinner
+    - career: user career
+    - city: user city
+    - interests: user interests
+    - picture: user picture uploaded in jpg format (no additional tests put in this iteration)
+    - bio : user story and biography they want to share with others
+    - pet_peeves: user pet peeves (i.e., slow walkers)
+    - picture_name: name of picture that is generated automatically using uuid
+    - token: JWT of the logged in user
+
+Response: 
+```
+{
+    "id": "062e001f-b458-44cf-a68c-1f6198910e43"
+    "first_name": "Kittima",
     "last_name": "Ratana-Rueangsri",
     "email": "kittima.ratana@gmail.com",
     "gender": "Female",
-    "birthday": "1997-02-28",
-    "career": "Career Transitioning",
+    "birthday": "1997-02-28T05:00:00.000Z",
+    "career": "Data Scientist -> Software Engineering",
     "city": "Toronto",
-    "interests": "["singing", "fitness", "self care", "travelling"]",
-    "picture": <link>,
-    "bio": "Something something something",
-    "pet peeves": "flaky, late, and passive agressive people"
+    "interests": "Singing, Fitness, Self care, Travelling",
+    "picture": "/images/062e001f-b458-44cf-a68c-1f6198910e43.jpg",
+    "bio": "Hello this is me, I love to go on adventures and something something something",
+    "pet_peeves": "Flakiness"
 }
+```
 
-**PUT /user/:userId** >>
+**Get /users/:userIid** >>
 
--Update user details to register and update as other fields will be filled in
+- Get user profile details given user id
 
 - Parameters:
-    **- id: existing id of user (int)**
-    - name: existing name of user (varchar)
-    - email: existing email with validation (varchar)
-    - password: existing password (varchar)
-    - gender: gender (varchar)
-    - birthday: birthday (date)
-    - career: career (varchar)
-    - city: city (varchar)
-    - interests: interests (string array)
-    - "picture": image (varchar)
-    - "bio" : bio (varchar)
-    - pet peeves: petpeeves (varchar)
     - token: JWT of the logged in user
+    - user_id: userId of the user we want to get profile details on
 
 Response: 
-
+```
 {
-    "id": 1
-    "name": "Kittima",
-    "email": "kittima.ratana@gmail.com",
-    "password": "password",
+    "id": "062e001f-b458-44cf-a68c-1f6198910e43",
+    "first_name": "Evelyn",
+    "last_name": "Fisher",
+    "email": "Lillie48@yahoo.com",
     "gender": "Female",
-    "birthday": "1997-02-28",
-    "career": "Career Transitioning",
-    "city": "Toronto",
-    "interests": "["singing", "fitness", "self care", "travelling"]",
-    "picture": <link>,
-    "bio": "Something something something",
-    "pet peeves": "flaky, late, and passive agressive people"
+    "birthday": "2006-07-11T04:00:00.000Z",
+    "career": "Dynamic Brand Analyst",
+    "city": "Larsonfort",
+    "interests": "Mushroom hunting,Genealogy,Pottery",
+    "picture": "/images/062e001f-b458-44cf-a68c-1f6198910e43.jpg",
+    "bio": "streamer, film lover, entrepreneur 🚱",
+    "pet_peeves": "Interrupting while speaking"
 }
-
-**GET /user/:userId/events-hosted**
-
--Get user events
-
-- Parameters: 
-    **- id: existing id of user (int)**
-    - token: token of user 
-
-Response: 
-
-[
-{
-    "eventId": 1,
-    "hostuserId": 2,
-    "date": "2024-03-01",
-    "time": 8:00 pm,
-    "location": "Terroni",
-    "maxGuests": 8,
-    "totalGuests" 7,
-    "description": "New to town",
-    "guestStatus": "New Requests" //sql count if possible with eventId where eventid has "Pending Requests"
-}
-]
-
-**GET /events/:userId**
-
--Get events that user is currently in status pending or going currently 
-
-- Parameters: 
-    **- id: existing id of user (int)**
-    - token: token of user 
-
-Response: 
-
-[
-{
-    "eventId": 1,
-    "hostuserId": 2,
-    "date": "2024-03-01",
-    "time": 8:00 pm,
-    "location": "Terroni",
-    "maxGuests": 8,
-    "totalGuests" 7,
-    "description": "New to town",
-    "status": "Going"
-}
-
-{
-    "eventId": 2,
-    "hostuserId": 3,
-    "date": "2024-05-01",
-    "time": 8:00 pm,
-    "location": "Drinks",
-    "maxGuests": 10,
-    "totalGuests" 2,
-    "description": "Fun night out",
-    "status": "Pending"
-}
-]
+```
 
 **GET /events**
 
-- Get list of events to display to user that user is not part of for events page
+- Get an event that user has never seen before to display on explore page
 
 - Parameters: 
-    **- id: user id of user we are looking at (do we need it if token is stored?)**
-    - token: token of user 
-    
-Join eventDetails with userCredentials not having event userId in userAttendance totalGuest not equal to maxGuest
+   - token: JWT of the logged in user
 
 Response: 
+```
+{
+    "id": 1,
+    "user_id": "f367b301-a9b4-43d8-b5ff-eb5519aaf841",
+    "date": "2024-04-15T04:00:00.000Z",
+    "location": "Aquarium store or public aquariums",
+    "max_guests": 3,
+    "total_guests": 1,
+    "description": "Learn about aquatic ecosystems together at aquarium stores or enjoy marine life at public aquariums."
+}
+```
+
+**POST /events**
+
+- Get an event that user has never seen before to display on explore page
+
+- Parameters:
+    - date: date of event
+    - location: location of event
+    - max_guests: number of attendees + host that can attend event
+    - description: event details
+    - token: JWT of the logged in user
+
+Response:
+```
+{
+    "id": 13,
+    "user_id": "076d6267-3110-46c2-9055-c8472801c78d",
+    "date": "2024-01-01T05:00:00.000Z",
+    "location": "Taylor Swift Era Concert",
+    "max_guests": 2,
+    "total_guests": 1,
+    "description": "I have an extra Taylor Swift ticket if any Swiftie would want to join"
+}
+```
+
+**GET /events/:eventId**
+
+Get attendance list for event of people with status going, pending and hosting
+
+- Parameters:
+    - event_id: event ID (int foreign key)
+    - token: JWT of the logged in user
+
+Response: 
+```
 [
     {
-    "id": 2 (joined with hostUserId)
-    "name": "Erik",
-    "eventId": 2,
-    "date": "2024-03-01",
-    "time": 8:00 pm,
-    "location": "Terroni",
-    "maxGuests": 8,
-    "totalGuest": 1,
-    "description": "New to town",
+        "id": "162f0d54-f5c6-4a1d-be4b-534c79639b8b",
+        "first_name": "Jennifer",
+        "last_name": "Runolfsdottir",
+        "picture": "/images/162f0d54-f5c6-4a1d-be4b-534c79639b8b.jpg",
+        "attendence_id": 4,
+        "event_id": 4,
+        "status": "Hosting"
+    },
+    {
+        "id": "6a4fbf26-1676-4775-b20c-6c7d06be3175",
+        "first_name": "Dell",
+        "last_name": "Klein",
+        "picture": "/images/6a4fbf26-1676-4775-b20c-6c7d06be3175.jpg",
+        "attendence_id": 5,
+        "event_id": 4,
+        "status": "Going"
+    },
+    {
+        "id": "6f72b094-75da-438f-8566-3f22b0686afc",
+        "first_name": "Chet",
+        "last_name": "Weber",
+        "picture": "/images/6f72b094-75da-438f-8566-3f22b0686afc.jpg",
+        "attendence_id": 6,
+        "event_id": 4,
+        "status": "Pending"
     }
 ]
+```
 
-**POST /event**
+**POST /events/:eventId**
 
-- Parameters:
-    - token: token of user (varchar)
-    - date: date of event (date)
-    - time: time of event (12 am -> 11:59 pm) (date)
-    - location: location of meet up (varchar)
-    - maxGuest: int (min 2) (int)
-    - totalGuest: start with 1 (int)
-    - description: event details (varchar)
-
-Response (1): 
-
-{
-    "eventId": 1,
-    "hostuserId": 2,
-    "date": "2024-03-01",
-    "time": 8:00 pm,
-    "location": "Terroni",
-    "maxGuests": 8,
-    "totalGuest": 1,
-    "description": "New to town",
-}
-
-Reponse (2):
-
-{
-    "attendanceId": 1,
-    "eventId": 1,
-    "status": "Host",
-    "guestId": 1
-}
-
-**POST /event/:eventId**
-
-Request to join event
+Post event attendance status either pending or uninterested based on user's interaction on explore page (swipe left/request to join)
 
 - Parameters:
-    - token: token of user (varchar)
-    - eventId: event ID (int foreign key)
+    - event_id: event ID (int foreign key)
+    - status: whether user is uninterested or pending (wants to join)
+    - token: JWT of the logged in user
 
 Response: 
-
+```
 {
-    "attendanceId": 1,
-    "eventId": 1,
+    "id": 58,
+    "event_id": 4,
     "status": "Pending",
-    "guestId": 2
+    "guest_user_id": "076d6267-3110-46c2-9055-c8472801c78d"
 }
+```
 
-**PUT /event/:eventId** ---final things postman will see
+**PUT /events/:eventId**
 
-Host or user have changed state of status
-
-Confirm can guest id be same as token id
+- Host has decided whether to accept "Going", declined "Rejected" event request 
+- User has decided to "Cancel" request when they had not been accepted yet
 
 - Parameters:
-    - token: token of user (varchar)
-    - eventId: event ID (int)
-    - status: what was the status of event (varchar)
+    - attendance_id: attendance ID of user event
+    - event_id: event ID (int foreign key)
+    - status: whether user is uninterested or pending (wants to join)
+    - user_id: user id that the change is occuring on
+    - token: JWT of the logged in user
 
-Response (1) Change state of user
-
+Response: 
+```
 {
-    "attendanceId": 1,
-    "eventId": 1,
-    "status": "Cancelled" or "Approved" or "Rejected",
-    "guestId": 1
+    "id": 58,
+    "event_id": 4,
+    "status": "Going",
+    "guest_user_id": "076d6267-3110-46c2-9055-c8472801c78d"
 }
+```
 
-Reponse (2) Increase Number of guests (7 to 8 totalGuest)
+**GET /events/:eventId/details**
 
+- Get event details given event id
+
+- Parameters: 
+    - token: JWT of the logged in user
+
+Response: 
+```
 {
-    "eventId": 1,
-    "hostuserId": 2,
-    "date": "2024-03-01",
-    "time": 8:00 pm,
-    "location": "Terroni",
-    "maxGuests": 8,
-    "totalGuest": 8,
-    "description": "New to town",
+    "id": 8,
+    "user_id": "2b069300-a587-4f8f-9c61-13494737f224",
+    "date": "2024-04-06T04:00:00.000Z",
+    "location": "Film school or video production studios",
+    "max_guests": 7,
+    "total_guests": 1,
+    "description": "Create cinematic masterpieces together at film schools or explore video production studios for creative projects."
 }
+```
 
-Change everyone who is Pending to Rejected if it is full
+**GET /events/user/upcoming-events**
 
+-Get list of events that user is currently with status pending or hosting
 
-{
-    "attendanceId": 1,
-    "eventId": 1,
-    "status": "Rejected"
-    "guestId": 2
-}
+- Parameters: 
+    - token: JWT of the logged in user
 
-{
-    "attendanceId": 1,
-    "eventId": 1,
-    "status": "Rejected"
-    "guestId": 3
-}
+Response: 
+```
+[
+    {
+        "id": 4,
+        "user_id": "162f0d54-f5c6-4a1d-be4b-534c79639b8b",
+        "date": "2024-04-14T04:00:00.000Z",
+        "location": "Candle making workshops or craft fairs",
+        "max_guests": 8,
+        "description": "Craft aromatic candles together at candle making workshops or explore handmade candles at craft fairs.",
+        "status": "Going",
+        "picture": "/images/162f0d54-f5c6-4a1d-be4b-534c79639b8b.jpg"
+    }
+]
+```
 
+**GET /events/user/hosting-events**
 
+-Get list of events that user is hosting and whether there are incoming requests from others to join 
 
+- Parameters: 
+    - token: JWT of the logged in user
+
+Response: 
+```
+[
+    {
+        "id": 1,
+        "user_id": "f367b301-a9b4-43d8-b5ff-eb5519aaf841",
+        "date": "2024-04-15T04:00:00.000Z",
+        "location": "Aquarium store or public aquariums",
+        "max_guests": 3,
+        "description": "Learn about aquatic ecosystems together at aquarium stores or enjoy marine life at public aquariums.",
+        "picture": "/images/f367b301-a9b4-43d8-b5ff-eb5519aaf841.jpg",
+        "pendingStatus": true
+    }
+]
+```
 
 ### Auth
 
-- JWT aut
-    - Store JWT in localStorage, remove when a user logs out
+- JWT auth
+    - Store JWT in AsyncStorage (currently not priority to remove)
+    - Use token to help pull specific data from server based on user token
 
 ## Roadmap
 
-- Internal Deadlines: 
+**Shorten list of original roadmap to provide high level overview of roadmap steps**
 
-- Sprint 1 - Ensuring that all data is shown properly for each page (target Thursday 21st, latest weekend)
+- Look into Expo/React Native
 
-    - Look into Expo/React Native ✅
+- Backend Focus: 
+    - Create server and deploy 
+        -Pull mock data, populate databases
+        -Create routes
 
-    - Create server and deploy ✅
-        - Pull mock data from api as seed data
-        - Populate databases 
-        - express project with routing
+    - Create client and deploy
+        -folder structure, routes, pages connections
 
-    - Create client and deploy ✅
-        - folder structure, routes, pages connections
+    - Implement all backend responses
 
-    - Feature: Implement all backend response types  ✅
-        - Implement all end points and test on Postman
+    - Connect frontend pages to backend and ensure data is showing on correct pages
 
-    - Feature: Connect frontend pages to backend 🆗
-        - Design can be ugly, just want to ensure that all frontend pages display data from server Working on it
+- Frontend Focus:
+    - Implement authenticaion frontend design and basic form validation
+        -Login, Register, Register Profile
 
-- Sprint 2 - FrontEnd Design (target Thursday 28th, latest Friday)
+    - Implement Konnect header and Tab navigation bottom design
 
-    - Front-End Feature: Create main page (/)
+    - Implement settings and message tabs frontend design
+        - Settings, View Profile, Message (Placeholder design)
 
-    - Front-End Feature: Create account page (/account)
-        - Implement front end design 
-        - Implement form validation
+    - Implement Explore Tab frontend design
+        - Includes posting attendance status, refreshing new data, routing to view profile and alert view if requesting to join
 
-    - Front-End Feature: Create interests page (interest)
-        - Implement front end design and form PUT and POST to input interests
-        - Implement form validation
+    - Implement Home Tab frontend design
+        - Upcoming event and hosting event view
+        - Create new event screen and basic validation
+        - View specific event screen, displaying different button types based on whether user is host or guest
+        - Put attendance status to server based on host or guest credentials and action chosen
 
-    - Front-End Feature: Login account page (/login)
-        - Implement front end design
-        - Implement form validation
-
-    - Front-End Feature: Footer component
-        - Format icon (navigation footer component) and call it from each page as some pages do not have footer
-
-    - Front-End: View User details component
-        - Implement front end design 
-        - Used in various pages including displaying settings, viewing new user profile in explore, and view user profile on Event page
-        - Depending on prop pass down from previous page (UI may slightly differ)
-
-    - Front-End Feature: Events component (/events)
-        - Implement front end design
-        - Implement events, event components passing down prop event id and host id to view event details
-
-    - Front-End Feature: View Event page (/event/id)
-        - Implement front end design
-        - Based on the prop given display's different data and have different navigation options
-            - If event is hosted by user, then they can navigate to see pending requests
-            - If user is going to event, there is no navigation just word "Going"
-            - If host has not accepted user event, user can be navigated to cancel request
-            - If user is just viewing the event sent in their search feed, user can be navigated to request to join
-
-    - Front-End Feature: Request to Join/Cancel Pending Event page (/event/id/action)
-        - Implement front end design
-        - Based on the prop given whether they want to join or cancel event, a different form will appear (request to join, cancel request)
-        - They can cancel/undo which navigates back 1 page
-        - If they ever confirm the action, they are navigated back to main page afterwards
-
-    - Front-End Feature: Requests page (/event/id/requests)
-        - Implement front end design
-        - Contain, requests and request components that to display each requested user
-
-    - Front-End Feature: Create event page (/create)
-        - Implement front end design
-        - Implement form validation
-        - Both navigates back to Events page
-
-    - Front-End Feature: Settings page
-        - Edit profile -> Link to create interest page
-        - Logout -> Just logs out
+    - Add comprehensive form validation
+    - Increase UI of each screen
+    - Fix warning messages that console displays
+    - Bug fixes
+    - Update README File
+    - Demo Day
 
 ## Nice-to-haves
-
-Your project will be marked based on what you committed to in the above document. Under nice-to-haves, you can list any additional features you may complete if you have extra time, or after finishing.
 
 - settings:
     - edit profile (instead of view profile)
     - ability to choose distance and randomness of friends
-    - ability to incorporate AI to pair friendships (first to showcase skills !!!)
+    - ability to incorporate AI to pair friendships 
     - priority of event interests
     - forget password
     - adding multiple pictures to mobile
     - potentially have more bio options
     - password hashing
+    - proper authentication steps
+    - testing out character limit for each form section
 
 - message tab:
-    - chose not to work right now but can be between host and user
+    - implementing message tab
+    - incorporating push notifications when new message is sent
 
 - events/ homepage:
-    - users cannot add event to multiple time slots
-    - events need to be next couple of weeks not too much after
+    - validating users cannot be added to same event at the same time
+    - adding time field (not just date)
+    - ensuring events is next couple of weeks
+    - incorporating push notifications when there are new status to event
+    - removing pass events 
 
+- overall project:
+    - gaining more knowledge how to scale if there are a lot of users
+    - increasing security of application
+    - making overall UI more visually pleasing
+    - add more mobile guesture features 
+    - make comptabile to other devices than just iphone 3
