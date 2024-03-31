@@ -6,6 +6,7 @@ import MessageScreen from '../screens/MessageScreen'
 import SettingsStackNavigator from './SettingsStackNavigator'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+//4 tabs shown once user is logged in, which includes home, explore, messages and settings
 const MainTabNavigator = () => {
     const MainTab = createBottomTabNavigator();
 

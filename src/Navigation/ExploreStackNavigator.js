@@ -3,6 +3,7 @@ import ExploreScreen from '../screens/ExploreScreen'
 import ViewProfileScreen from '../screens/ViewProfileScreen'
 import { createStackNavigator } from '@react-navigation/stack';
 
+//stack for explore tab
 const ExploreStackNavigator = () => {
   const ExploreStack = createStackNavigator();
 

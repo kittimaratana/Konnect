@@ -1,42 +1,55 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { colors, spacing, fontSize } from '../styles/styles';
+import { View, Text, StyleSheet, Image, TouchableHighlight } from 'react-native';
+import { colors, spacing } from '../styles/styles';
 import { useNavigation } from '@react-navigation/native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const EventPreview = ({ eventId, picture, date, location, status, guestType }) => {
-    const dateFormatted = new Date(date);
     const navigation = useNavigation();
 
+    //convert date to display to user
+    const dateFormatted = new Date(date);
     const options = {
-        year: "numeric",
-        month: "long",
+        month: "short",
         day: "numeric"
     }
     let formattedDate = dateFormatted.toLocaleString("en-US", options)
 
+    //allows user to navigate to view event
     const handleViewEvent = () => {
-        navigation.navigate('ViewEvent', {eventId, guestType});
+        navigation.navigate('ViewEvent', { eventId, guestType });
     }
 
+    const formatLocation = (location) => {
+        let locationTrim = location.trim();
+        if(locationTrim .length > 32) {
+            return(locationTrim.substring(0,28) + "...")
+        }
+        return(locationTrim);
+    }
+
+    //displays each event detail with ability to navigate to see more comprehensive details
     return (
-        <View style={styles.container}>
-            <View style={styles.imageContainer}>
-                <Image
-                    style={{ width: 50, height: 50 }}
-                    source={{ uri: `http://localhost:5001${picture}` }}
-                />
-            </View>
-            <View style={styles.detailContainer}>
-                <View style={styles.detailHeader} >
-                    <Text style={styles.detail}>{status}</Text>
-                    <Text style={styles.detail}>Date: {formattedDate}</Text>
+        <TouchableHighlight activeOpacity={0.6} underlayColor={colors.borderLightPurple} onPress={handleViewEvent}>
+            <View style={styles.container}>
+                <View style={styles.imageContainer}>
+                    <Image
+                        style={styles.image}
+                        source={{ uri: `http://localhost:5001${picture}` }}
+                    />
                 </View>
-                <Text style={styles.detail}>Location: {location}</Text>
-                <TouchableOpacity style={styles.button} onPress={handleViewEvent}>
-                    <Text style={styles.buttonText}>⏩️</Text>
-                </TouchableOpacity>
+                <View style={styles.detailContainer}>
+                    <View style={styles.detailRowContainer} >
+                        <Text style={[styles.detail, styles.location]}>{formatLocation(location)}</Text>
+                        <Text style={[styles.detail, styles.date]}>{formattedDate}</Text>
+                    </View>
+                    <View style={styles.statusContainer} >
+                        <Text style={[styles.detail, styles.status]}>{status}</Text>
+                        <MaterialCommunityIcons name="chevron-right" color={colors.gray} size='25'/>
+                    </View>
+                </View>
             </View>
-        </View>
+        </TouchableHighlight>
     )
 }
 
@@ -50,23 +63,36 @@ const styles = StyleSheet.create({
     },
     imageContainer: {
         width: '20%',
+        height: 50
+    },
+    image: {
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        overflow: 'hidden'
     },
     detailContainer: {
         width: '80%',
+        height: 50,
+        justifyContent: 'space-between',
     },
-    detailHeader: {
+    detailRowContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
-    detail: {
-        marginBottom: spacing.gutter
+    location: {
+        fontWeight: '500'
     },
-    button: {
+    date: {
+        color: colors.gray
+    },
+    statusContainer: {
         flexDirection: 'row',
-        justifyContent: 'flex-end',
+        justifyContent: 'flex-start',
+        alignItems: 'center'
     },
-    buttonText: {
-        color: colors.purpleButton
+    status: {
+        color: colors.gray
     }
 });
 

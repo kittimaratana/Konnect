@@ -2,9 +2,11 @@ import React from 'react';
 import { Image, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
+//resuable component to display user image and once the image is press, the user can view the profile details
 const UserImage = ({ picture, userId, width, height }) => {
     const navigation = useNavigation();
 
+    //navigate to view profile details
     const handleViewProfile = () => {
         navigation.navigate('ViewOtherProfile', {userId})
     }

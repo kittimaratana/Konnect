@@ -3,6 +3,7 @@ import { TouchableOpacity, Text } from 'react-native';
 import { StyleSheet } from 'react-native';
 import {colors, spacing, fontSize} from '../styles/styles';
 
+//resusable component button that results in eventHandler action
 const ActionButton = ({style, onPress, title, textColor }) => {
     return (
         <TouchableOpacity style={[styles.container, style]} onPress={onPress}>

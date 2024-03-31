@@ -5,6 +5,7 @@ import ViewEventScreen from '../screens/ViewEventScreen'
 import ViewProfileScreen from '../screens/ViewProfileScreen'
 import { createStackNavigator } from '@react-navigation/stack';
 
+//stack for home tab
 const HomeStackNavigator = () => {
   const HomeStack = createStackNavigator();
 

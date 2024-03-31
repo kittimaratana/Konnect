@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text } from 'react-native';
 import {colors, spacing, fontSize} from '../styles/styles';
 
+//header logo for app
 const Header = () => {
     return (
         <Text style={styles.container}>Konnect</Text>

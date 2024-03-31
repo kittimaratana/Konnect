@@ -3,6 +3,7 @@ import SettingsScreen from '../screens/SettingsScreen'
 import ViewProfileScreen from '../screens/ViewProfileScreen'
 import { createStackNavigator } from '@react-navigation/stack';
 
+//stack for settings tab
 const SettingsStackNavigator = () => {
   const SettingsStack = createStackNavigator();
 

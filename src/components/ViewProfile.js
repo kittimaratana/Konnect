@@ -6,7 +6,8 @@ import getZodiac from '../styles/getZodiac';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const ViewProfile = ({ navigation, user }) => {
-    //get age
+    
+    //get age of user and zodiac sign
     let millisecondInYear = 1000 * 60 * 60 * 24 * 365;
     let userBirthday = new Date(user["birthday"]);
     const userBirthdayFormatted = new Date(userBirthday.getFullYear(), userBirthday.getMonth(), userBirthday.getDate())
@@ -14,9 +15,10 @@ const ViewProfile = ({ navigation, user }) => {
     const age = Math.floor((new Date() - userBirthdayFormatted) / millisecondInYear);
     let userZodiac = getZodiac(userBirthdayFormatted);
 
-    //get interests
+    //get interests in a list from string array
     let interestList = user["interests"].split(",")
 
+    //display user detail data 
     return (
         <SafeAreaView style={styles.container}>
             <TouchableOpacity style={styles.goBackContainer} onPress={() => navigation.goBack()}>

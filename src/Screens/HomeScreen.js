@@ -83,7 +83,7 @@ const HomeScreen = () => {
                 </View>
                 {hostingEvents.map((hostingEvent) => {
                     let hostStatus = "New Requests!";
-                    if (hostingEvent.pendingStatus === "false") {
+                    if (hostingEvent.pendingStatus === false) {
                         hostStatus = "View Event"
                     }
                     return (
@@ -106,7 +106,7 @@ const HomeScreen = () => {
                 <View style={styles.titleContainer}>
                     <Text style={styles.title}>Upcoming Events</Text>
                 </View>
-                {upcomingEvents.map((upcomingEvent) => {
+                {upcomingEvents.map((upcomingEvent, index) => {
                     return (
                         <EventPreview
                             key={upcomingEvent.id}

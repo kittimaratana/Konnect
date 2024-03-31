@@ -1,13 +1,13 @@
 import { useState, useEffect, React } from "react";
-import { ScrollView, View, Text, RefreshControl, FlatList, StyleSheet, Image, SafeAreaView } from 'react-native';
+import { ScrollView, View, Text, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from "axios";
-import { colors, spacing, fontSize, form } from '../styles/styles';
+import { colors, spacing, fontSize } from '../styles/styles';
 import { useNavigation } from '@react-navigation/native';
 import Header from '../components/Header';
 import UserImage from '../components/UserImage';
 import AttendeeDetails from '../components/AttendeeDetails';
-import { Directions, Gesture, GestureDetector } from 'react-native-gesture-handler';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const ViewEventScreen = ({ route }) => {
     const navigation = useNavigation();
@@ -18,6 +18,7 @@ const ViewEventScreen = ({ route }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [hasError, setHasError] = useState(false);
 
+    //fetch event details, attendance details and user details
     const fetchEvent = async () => {
         try {
             const token = await AsyncStorage.getItem('token')
@@ -44,14 +45,12 @@ const ViewEventScreen = ({ route }) => {
             setUser(userResponse.data);
             setIsLoading(false);
         } catch (error) {
-            console.log(error.response.data);
-            console.log("tester");
             setIsLoading(false);
             setHasError(true);
         }
     }
 
-    //status either Uninterested or Pending
+    //status changed to cancelled, rejected or going based on host or guest action
     const putAttendance = async (userId, attendanceId, status) => {
         try {
             const token = await AsyncStorage.getItem('token');
@@ -68,20 +67,18 @@ const ViewEventScreen = ({ route }) => {
 
             setIsLoading(false);
 
-            if(status === "Cancelled") {
+            if (status === "Cancelled") {
                 navigation.navigate('Home');
-            } 
+            }
 
             await fetchEvent();
         } catch (error) {
-            console.log(error.response.data);
             setIsLoading(false);
             setHasError(true);
         }
     }
 
     useEffect(() => {
-        // Fetching events for user
         fetchEvent();
     }, []);
 
@@ -103,23 +100,41 @@ const ViewEventScreen = ({ route }) => {
     const guestPendingDetails = attendanceList.filter(attendee => attendee["id"] !== event["user_id"] && attendee["status"] === "Pending");
     const dateFormatted = new Date(event.date);
 
+    //format date to show to users
     const options = {
         year: "numeric",
         month: "long",
         day: "numeric"
     }
     let formattedDate = dateFormatted.toLocaleString("en-US", options);
-    //console.log(guestPendingDetails[0]["attendence_id"]);
 
     return (
         <SafeAreaView style={styles.container}>
+            <TouchableOpacity style={styles.goBackContainer} onPress={() => navigation.goBack()}>
+                <MaterialCommunityIcons name="chevron-left" color={colors.gray} size='25' />
+            </TouchableOpacity>
             <ScrollView>
                 <Header />
                 <Text style={styles.title}>{event.location}</Text>
-                <UserImage picture={hostDetails.picture} userId={hostDetails.id} width='100%' height={400} />
-                <Text style={styles.details}>Date: {formattedDate}</Text>
-                <Text style={styles.details}>Description: {event.description}</Text>
-                <Text style={styles.subTitle}>Guest List</Text>
+                <UserImage picture={hostDetails.picture} userId={hostDetails.id} width='100%' height={350} />
+                <Text style={styles.details}>📆 Event Date: {formattedDate}</Text>
+                <Text style={[styles.details, styles.description]}>Description: {event.description}</Text>
+                <View style={styles.subTitleBorder}>
+                    <Text style={styles.subTitle}>Guest List</Text>
+                </View>
+                {hostDetails &&
+                    <AttendeeDetails
+                        eventId={eventId}
+                        guestType={guestType}
+                        status={hostDetails.status}
+                        userId={hostDetails.id}
+                        attendanceId={hostDetails["attendence_id"]}
+                        firstName={hostDetails.first_name}
+                        lastName={hostDetails.last_name}
+                        picture={hostDetails.picture}
+                        putAttendance={putAttendance}
+                    />
+                }
                 {guestGoingDetails && guestGoingDetails.map((details, index) => (
                     <AttendeeDetails
                         eventId={eventId}
@@ -170,22 +185,36 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: colors.white,
     },
+    goBackContainer: {
+        position: 'absolute',
+        top: 35,
+        zIndex: 1000
+    },
     title: {
         paddingHorizontal: spacing.margin,
         fontSize: fontSize.header,
         color: colors.purpleButton,
         marginBottom: spacing.margin,
+        fontWeight: '500'
     },
     details: {
         fontSize: fontSize.sectionHeader,
         paddingHorizontal: spacing.margin,
         paddingTop: spacing.component
     },
+    description: {
+        paddingBottom: spacing.component,
+    },
+    subTitleBorder: {
+        paddingTop: spacing.component,
+        borderTopWidth: 1,
+        borderTopColor: colors.borderLightPurple,
+    },
     subTitle: {
         paddingHorizontal: spacing.margin,
         fontSize: fontSize.header,
         color: colors.purpleButton,
-        marginVertical: spacing.component
+        marginBottom: spacing.component
     },
 });
 

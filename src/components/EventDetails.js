@@ -44,7 +44,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingHorizontal: spacing.margin,
-        justifyContent: 'center'
+        paddingTop: spacing.gutter,
+        width: '100%'
     },
     detail: {
         marginBottom: spacing.gutter,

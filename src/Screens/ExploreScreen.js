@@ -1,5 +1,5 @@
 import { useState, useEffect, React } from "react";
-import { Text, RefreshControl, StyleSheet, SafeAreaView } from 'react-native';
+import { Text, StyleSheet, SafeAreaView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from "axios";
 import { colors} from '../styles/styles';
