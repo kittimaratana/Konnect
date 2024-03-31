@@ -68,7 +68,7 @@ const ViewEventScreen = ({ route }) => {
             setIsLoading(false);
 
             if (status === "Cancelled") {
-                navigation.navigate('Home');
+                navigation.navigate('HomeScreen');
             }
 
             await fetchEvent();
@@ -111,7 +111,7 @@ const ViewEventScreen = ({ route }) => {
     return (
         <SafeAreaView style={styles.container}>
             <TouchableOpacity style={styles.goBackContainer} onPress={() => navigation.goBack()}>
-                <MaterialCommunityIcons name="chevron-left" color={colors.gray} size='25' />
+                <MaterialCommunityIcons name="chevron-left" color={colors.gray} size={25} />
             </TouchableOpacity>
             <ScrollView>
                 <Header />
@@ -137,6 +137,7 @@ const ViewEventScreen = ({ route }) => {
                 }
                 {guestGoingDetails && guestGoingDetails.map((details, index) => (
                     <AttendeeDetails
+                        key={index}
                         eventId={eventId}
                         guestType={guestType}
                         status={details.status}
@@ -150,6 +151,7 @@ const ViewEventScreen = ({ route }) => {
                 ))}
                 {guestPendingDetails && guestType === "Host" && guestPendingDetails.map((details, index) => (
                     <AttendeeDetails
+                        key={index}
                         eventId={eventId}
                         guestType={guestType}
                         status={details.status}

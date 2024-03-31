@@ -14,7 +14,7 @@ const MessageScreen = () => {
             <View style={styles.border} />
             <Text style={styles.title}>Messages</Text>
             <View style={styles.messageContainer}>
-                <MaterialCommunityIcons name="message" color={colors.gray} size='70'/>
+                <MaterialCommunityIcons name="message" color={colors.gray} size={70}/>
                 <Text style={styles.messageTitle}>No messages</Text>
                 <Text style={styles.messageAlert}>Messages received and sent will appear here</Text>
             </View>

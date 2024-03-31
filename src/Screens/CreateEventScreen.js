@@ -133,7 +133,7 @@ const CreateEventScreen = () => {
                         form.field,
                         hasSubmit && maxGuests === "" ? styles.errorInputBorder : null,
                     ]}
-                        value={maxGuests}
+                        value={String(maxGuests)}
                         onChangeText={(text) => setMaxGuests(text)}
                         placeholder="Enter max number of guests"
                     />

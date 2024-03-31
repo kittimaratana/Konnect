@@ -1,12 +1,13 @@
 import { useState, useEffect, React } from "react";
-import { Text, StyleSheet, SafeAreaView } from 'react-native';
+import { Text, StyleSheet, SafeAreaView, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from "axios";
-import { colors} from '../styles/styles';
+import { colors, fontSize, spacing } from '../styles/styles';
 import Header from '../components/Header';
 import UserImage from '../components/UserImage';
 import EventDetails from '../components/EventDetails';
 import { Directions, Gesture, GestureDetector } from 'react-native-gesture-handler';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const ExploreScreen = () => {
     const [event, setEvent] = useState([]);
@@ -70,6 +71,8 @@ const ExploreScreen = () => {
         postEvent("Uninterested");
     }
 
+    const fling = Gesture.Fling().direction(Directions.LEFT).onEnd(handleSwipeLeft);
+
     if (hasError) {
         return (
             <Text>Unable to pull data right now</Text>
@@ -80,22 +83,30 @@ const ExploreScreen = () => {
         return <Text>Is Loading...</Text>;
     }
 
-    const fling = Gesture.Fling().direction(Directions.LEFT).onEnd(handleSwipeLeft);
-
     //display user image and event details for user to view
     return (
         <GestureDetector gesture={fling}>
             <SafeAreaView style={styles.container}>
                 <Header />
-                <UserImage picture={host.picture} userId={host.id} width='100%' height='65%'/>
-                <EventDetails
-                    key={event.id}
-                    location={event.location}
-                    date={event.date}
-                    description={event.description}
-                    action={postEvent}
-                    actionText="Request to Join"
-                />
+                {event ? (
+                    <>
+                        <UserImage picture={host.picture} userId={host.id} width='100%' height='65%' />
+                        <EventDetails
+                            key={event.id}
+                            location={event.location}
+                            date={event.date}
+                            description={event.description}
+                            action={postEvent}
+                            actionText="Request to Join"
+                        />
+                    </>
+                ) : (
+                    <View style={styles.noEventContainer}>
+                        <MaterialCommunityIcons name="calendar" color={colors.gray} size={70} />
+                        <Text style={styles.noEventTitle}>No events available currently</Text>
+                        <Text style={styles.noEventAlert}>New events will appear here</Text>
+                    </View>
+                )}
             </SafeAreaView>
         </GestureDetector>
     )
@@ -112,6 +123,23 @@ const styles = StyleSheet.create({
         height: '50%',
         alignItems: 'center',
         justifyContent: 'flex-start',
+    },
+    noEventContainer: {
+        height: '75%',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    noEventTitle: {
+        color: colors.black,
+        fontWeight: '800',
+        fontSize: fontSize.fields,
+        paddingTop: spacing.gutter,
+        paddingBottom: spacing.lineHeight*2
+    },
+    noEventAlert: {
+        paddingHorizontal: spacing.margin,
+        fontSize: fontSize.sectionHeader,
+        color: colors.gray,
     }
 });
 

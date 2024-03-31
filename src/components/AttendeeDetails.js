@@ -7,7 +7,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 const AttendeeDetails = ({ guestType, status, userId, attendanceId, firstName, lastName, picture, putAttendance }) => {
     const navigation = useNavigation();
     const cancelGuestRequest = () => {
-        Alert.alert("Cancel your request to join?", "This can't be undo", [
+        Alert.alert("Cancel your request to join?", "This action can't be undone", [
             {
                 text: 'Go back',
                 onPress: () => { }
@@ -33,7 +33,7 @@ const AttendeeDetails = ({ guestType, status, userId, attendanceId, firstName, l
     }
 
     const acceptGuestRequest = () => {
-        Alert.alert(`Accept ${firstName}'s request?`, "This can't be undo", [
+        Alert.alert(`Accept ${firstName}'s request?`, "This action can't be undone", [
             {
                 text: 'Cancel',
                 onPress: () => { }
@@ -92,7 +92,7 @@ const AttendeeDetails = ({ guestType, status, userId, attendanceId, firstName, l
                 </View>
                 <TouchableOpacity style={styles.viewProfileContainer} onPress={handleViewProfile}>
                     <Text style={[styles.detail, styles.viewProfile]}>View Profile</Text>
-                    <MaterialCommunityIcons name="chevron-right" color={colors.gray} size='25' />
+                    <MaterialCommunityIcons name="chevron-right" color={colors.gray} size={25} />
                 </TouchableOpacity>
             </View>
         </View>

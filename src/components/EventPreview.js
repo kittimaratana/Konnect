@@ -45,7 +45,7 @@ const EventPreview = ({ eventId, picture, date, location, status, guestType }) =
                     </View>
                     <View style={styles.statusContainer} >
                         <Text style={[styles.detail, styles.status]}>{status}</Text>
-                        <MaterialCommunityIcons name="chevron-right" color={colors.gray} size='25'/>
+                        <MaterialCommunityIcons name="chevron-right" color={colors.gray} size={25}/>
                     </View>
                 </View>
             </View>

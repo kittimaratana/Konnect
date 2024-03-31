@@ -29,19 +29,19 @@ const SettingsScreen = () => {
             <TouchableHighlight style={styles.settingOption} activeOpacity={0.6} underlayColor={colors.borderLightPurple} onPress={handleViewProfile}>
                 <View style={styles.settingOptionWrapper}>
                     <View style={styles.settingsLeftOptionWrapper}>
-                        <MaterialCommunityIcons name="account-heart-outline" color={colors.gray} size='25' />
+                        <MaterialCommunityIcons name="account-heart-outline" color={colors.gray} size={25} />
                         <Text style={styles.settingOptionText}>View Profile</Text>
                     </View>
-                    <MaterialCommunityIcons name="chevron-right" color={colors.gray} size='25' />
+                    <MaterialCommunityIcons name="chevron-right" color={colors.gray} size={25} />
                 </View>
             </TouchableHighlight>
             <TouchableHighlight style={styles.settingOption} activeOpacity={0.6} underlayColor={colors.borderLightPurple} onPress={handleLogout}>
                 <View style={styles.settingOptionWrapper}>
                     <View style={styles.settingsLeftOptionWrapper}>
-                        <MaterialCommunityIcons name="logout" color={colors.gray} size='25' />
+                        <MaterialCommunityIcons name="logout" color={colors.gray} size={25} />
                         <Text style={styles.settingOptionText}>Logout</Text>
                     </View>
-                    <MaterialCommunityIcons name="chevron-right" color={colors.gray} size='25' />
+                    <MaterialCommunityIcons name="chevron-right" color={colors.gray} size={25} />
                 </View>
             </TouchableHighlight>
         </SafeAreaView>

@@ -22,7 +22,7 @@ const ViewProfile = ({ navigation, user }) => {
     return (
         <SafeAreaView style={styles.container}>
             <TouchableOpacity style={styles.goBackContainer} onPress={() => navigation.goBack()}>
-                <MaterialCommunityIcons name="chevron-left" color={colors.gray} size='25' />
+                <MaterialCommunityIcons name="chevron-left" color={colors.gray} size={25} />
             </TouchableOpacity>
             <ScrollView>
                 <Header />
@@ -45,7 +45,7 @@ const ViewProfile = ({ navigation, user }) => {
                 <Text style={styles.detailSubHeader}>My hobbies include 🏈 🎭 🎹</Text>
                 <View style={styles.interests}>
                 {interestList.map((interest, index) => (
-                    <Text style={styles.interest}>{interest.trim()}</Text>
+                    <Text style={styles.interest} key={index}>{interest.trim()}</Text>
                 ))}
                 </View>
                 <Text style={styles.detailSubHeader}>My pet peeves are 🐶</Text>
