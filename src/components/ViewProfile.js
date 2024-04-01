@@ -5,6 +5,7 @@ import Header from '../components/Header';
 import getZodiac from '../styles/getZodiac';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+//view profile 
 const ViewProfile = ({ navigation, user }) => {
     
     //get age of user and zodiac sign

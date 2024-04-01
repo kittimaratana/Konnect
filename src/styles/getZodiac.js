@@ -73,6 +73,7 @@ const zodiacs = [
     }
 ];
 
+//get zodiac based on user birthday
 const getZodiac = (birthdayInput) => {
     const birthday = new Date(birthdayInput);
     //default to first zodiac capricon

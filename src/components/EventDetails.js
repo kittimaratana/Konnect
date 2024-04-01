@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { colors, spacing, fontSize } from '../styles/styles';
 
+//details of event that user is viewing
 const EventDetails = ({ location, date, description, action, actionText }) => {
 
     //format date to display
@@ -13,9 +14,9 @@ const EventDetails = ({ location, date, description, action, actionText }) => {
     }
     let formattedDate = dateFormatted.toLocaleString("en-US", options);
 
-    //alert to confirm request to attend
+    //alert to confirm request to attend event
     const createAlert = () => {
-        Alert.alert("Are you sure?", "Don't be that flakey friend", [
+        Alert.alert("Are you sure?", "Don't be that flaky friend", [
             {
                 text: 'Cancel',
                 onPress: () => { }

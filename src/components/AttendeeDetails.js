@@ -1,11 +1,14 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
-import { colors, spacing, fontSize } from '../styles/styles';
+import { colors, spacing} from '../styles/styles';
 import { useNavigation } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+//attendee details
 const AttendeeDetails = ({ guestType, status, userId, attendanceId, firstName, lastName, picture, putAttendance }) => {
     const navigation = useNavigation();
+    
+    //if user is a guest that has not been accepted yet, they can cancel the request to join
     const cancelGuestRequest = () => {
         Alert.alert("Cancel your request to join?", "This action can't be undone", [
             {
@@ -19,6 +22,7 @@ const AttendeeDetails = ({ guestType, status, userId, attendanceId, firstName, l
         ])
     }
 
+    //if user is a host, they can choose to reject a potential guest's request to attend
     const rejectGuestRequest = () => {
         Alert.alert("Confirmation required", `Reject ${firstName}'s request?`, [
             {
@@ -32,6 +36,7 @@ const AttendeeDetails = ({ guestType, status, userId, attendanceId, firstName, l
         ])
     }
 
+    //if user is a host, they can choose to accept the guest's request to attend
     const acceptGuestRequest = () => {
         Alert.alert(`Accept ${firstName}'s request?`, "This action can't be undone", [
             {
@@ -47,10 +52,12 @@ const AttendeeDetails = ({ guestType, status, userId, attendanceId, firstName, l
         ])
     }
 
+    //if user clicks on a guest/host container, they can view their profile
     const handleViewProfile = () => {
         navigation.navigate('ViewOtherProfile', { userId })
     }
 
+    //UI design showing different buttons and statuses based on if its a host or guest viewing the screen
     return (
         <View style={styles.container}>
             <View style={styles.imageContainer}>

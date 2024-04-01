@@ -7,6 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { colors, spacing, fontSize, form } from '../styles/styles';
 import ActionButton from '../components/ActionButton';
 
+//user login screen
 const LoginScreen = () => {
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
@@ -14,7 +15,6 @@ const LoginScreen = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [hasSubmit, setHasSubmit] = useState(false);
-    const [invalidEmail, setInvalidEmail] = useState(false);
     const [invalidCredentials, setInvalidCredentials] = useState(false);
 
     //if user clicks back button
@@ -37,10 +37,10 @@ const LoginScreen = () => {
     const handleLoginSubmit = async (event) => {
         event.preventDefault();
         setHasSubmit(true);
-        setInvalidEmail(false);
         setInvalidCredentials(false);
 
         //check if login credentials matches format and if so, call server
+        //if user credentials are verified, then user is navigated to the main screen
         let fieldError = false;
 
         if (email === "" || password === "") {
@@ -48,7 +48,6 @@ const LoginScreen = () => {
         }
 
         if (!emailValidation(email)) {
-            setInvalidEmail(true);
             fieldError = true;
         }
 

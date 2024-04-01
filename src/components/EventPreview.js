@@ -4,6 +4,7 @@ import { colors, spacing } from '../styles/styles';
 import { useNavigation } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+//previewing event 
 const EventPreview = ({ eventId, picture, date, location, status, guestType }) => {
     const navigation = useNavigation();
 
@@ -20,6 +21,7 @@ const EventPreview = ({ eventId, picture, date, location, status, guestType }) =
         navigation.navigate('ViewEvent', { eventId, guestType });
     }
 
+    //if location characters are going over the screen, limit it by adding ...
     const formatLocation = (location) => {
         let locationTrim = location.trim();
         if(locationTrim .length > 32) {

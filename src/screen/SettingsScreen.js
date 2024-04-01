@@ -5,6 +5,7 @@ import Header from '../components/Header';
 import { colors, spacing, fontSize } from '../styles/styles';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+//setting screen where user can click to view profile or logout
 const SettingsScreen = () => {
     const navigation = useNavigation();
 

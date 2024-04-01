@@ -7,6 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { colors, spacing, fontSize, form } from '../styles/styles';
 import ActionButton from '../components/ActionButton';
 
+//register new user to application
 const RegisterScreen = () => {
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
@@ -23,7 +24,7 @@ const RegisterScreen = () => {
         navigation.goBack();
     }
 
-    //if user does not have account
+    //if user has an account
     const handleLogin = () => {
         navigation.navigate('Login');
     }
@@ -34,12 +35,11 @@ const RegisterScreen = () => {
         return validEmailRegex.test(email)
     }
 
-    //check validation for user input
+    //check validation for user input and if credentials are met, add the user data to the server
     const handleRegister = async (event) => {
         event.preventDefault();
         setHasSubmit(true);
 
-        //check if login credentials matches format and if so, call server
         let fieldError = false;
 
         if ([firstName, lastName, email, password, confirmPassword].some(field => field === "")) {

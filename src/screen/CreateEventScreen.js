@@ -8,6 +8,8 @@ import { colors, spacing, fontSize, form } from '../styles/styles';
 import ActionButton from '../components/ActionButton';
 import Header from '../components/Header';
 
+
+//create event screen 
 const CreateEventScreen = () => {
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
@@ -30,7 +32,7 @@ const CreateEventScreen = () => {
         setEventDate(selectedDate);
     };
 
-    //check guest validation
+    //check guest validation so user inputs number and 2 and over guests
     const guestValidation = (maxGuests) => {
         const number = parseInt(maxGuests);
 
@@ -40,7 +42,7 @@ const CreateEventScreen = () => {
         return (false)
     }
 
-    //check if user is 18 or older
+    //check if the date is in the future
     const validDate = (eventDate) => {
         const currentDate = new Date();
         const millisecondsToDay = 1000 * 60 * 60 * 24;
@@ -52,7 +54,7 @@ const CreateEventScreen = () => {
         return (true)
     }
 
-    //add validation after
+    //add event to server
     const handleEvent = async (event) => {
         event.preventDefault();
         setHasSubmit(true);
@@ -72,6 +74,7 @@ const CreateEventScreen = () => {
             fieldError = true;
         }
 
+        //post events if there are no issues and navigate back to the home screen
         if (fieldError === false) {
             try {
                 const token = await AsyncStorage.getItem('token');

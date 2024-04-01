@@ -9,6 +9,7 @@ import UserImage from '../components/UserImage';
 import AttendeeDetails from '../components/AttendeeDetails';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+//viewing specific event details
 const ViewEventScreen = ({ route }) => {
     const navigation = useNavigation();
     const { eventId, guestType } = route.params;
@@ -22,18 +23,22 @@ const ViewEventScreen = ({ route }) => {
     const fetchEvent = async () => {
         try {
             const token = await AsyncStorage.getItem('token')
+            
+            //fetch event details
             const eventResponse = await axios.get(`http://localhost:5001/events/${eventId}/details`, {
                 headers: {
                     authorization: `Bear ${token}`
                 }
             });
 
+            //fetch list of attendee details
             const attendanceListResponse = await axios.get(`http://localhost:5001/events/${eventId}`, {
                 headers: {
                     authorization: `Bear ${token}`
                 }
             });
 
+            //fetch current user details
             const userResponse = await axios.get(`http://localhost:5001/users`, {
                 headers: {
                     authorization: `Bear ${token}`
@@ -98,9 +103,9 @@ const ViewEventScreen = ({ route }) => {
     const userPendingDetails = attendanceList.find(attendee => attendee["id"] === user["id"] && attendee["status"] === "Pending");
     const guestGoingDetails = attendanceList.filter(attendee => attendee["id"] !== event["user_id"] && attendee["status"] === "Going");
     const guestPendingDetails = attendanceList.filter(attendee => attendee["id"] !== event["user_id"] && attendee["status"] === "Pending");
-    const dateFormatted = new Date(event.date);
 
     //format date to show to users
+    const dateFormatted = new Date(event.date);
     const options = {
         year: "numeric",
         month: "long",
@@ -108,6 +113,7 @@ const ViewEventScreen = ({ route }) => {
     }
     let formattedDate = dateFormatted.toLocaleString("en-US", options);
 
+    //based on whether we are on host or guest event, different list of users and access types are shown on the UI (i.e., accept to join event is only shown to host)
     return (
         <SafeAreaView style={styles.container}>
             <TouchableOpacity style={styles.goBackContainer} onPress={() => navigation.goBack()}>

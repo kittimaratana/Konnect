@@ -9,10 +9,12 @@ import {colors, spacing, fontSize} from '../styles/styles';
 const IntroScreen = () => {
     const navigation = useNavigation();
 
+    //login to account
     const navigateToLogin = () => {
         navigation.navigate('Login')
     }
 
+    //create new account
     const navigateToRegister = () => {
         navigation.navigate('Register')
     }

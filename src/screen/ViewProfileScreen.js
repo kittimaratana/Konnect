@@ -5,6 +5,7 @@ import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import ViewProfile from '../components/ViewProfile';
 
+//view profile of user, guest or host
 const ViewProfileScreen = ({ route }) => {
     const { userId } = route.params;
     const navigation = useNavigation();

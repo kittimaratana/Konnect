@@ -9,6 +9,7 @@ import ActionButton from '../components/ActionButton';
 import * as ImagePicker from 'expo-image-picker';
 import uuid from 'react-native-uuid';
 
+//screen where user inputs additional data to their profile like image and bio
 const RegisterProfileScreen = () => {
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
@@ -35,7 +36,7 @@ const RegisterProfileScreen = () => {
         setBirthday(selectedDate);
     };
 
-    //check if user is 18 or older
+    //check if user is 18 or older as we do not want lawsuits
     const validBirthday = (birthday) => {
         const currentDate = new Date();
         const millisecondsToYear = 1000 * 60 * 60 * 24 * 365;
@@ -45,7 +46,7 @@ const RegisterProfileScreen = () => {
         return (true)
     }
 
-    //currently no picture request right now but this module from react native expo helps obtain picture from mobile that is exported to server
+    //expo library to help upload picture 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({mediaTypes: ImagePicker.MediaTypeOptions.All, allowsEditing: true, aspect: [4, 3], quality: 1,});
 
@@ -54,7 +55,8 @@ const RegisterProfileScreen = () => {
         }
     };
 
-    //check user input validation
+    //check user input validation and whether satisfy requirements
+    //once successful, navigate to main screen
     //future implementation: add additional validation for city, additional picures 
     const handleRegister = async (event) => {
         event.preventDefault();
@@ -69,15 +71,13 @@ const RegisterProfileScreen = () => {
             fieldError = true;
         }
 
-        //convert date to format server looks for and add attributes to form data to handle image export
+        //add attributes to form data to handle image export and convert date to proper server format
         const options = {
             year: 'numeric', 
             month: '2-digit',
             day: '2-digit'
         }
-
         const pictureName = `${uuid.v4()}.jpg`;
-
         const formData = new FormData();
 
         formData.append('picture', {
@@ -115,13 +115,14 @@ const RegisterProfileScreen = () => {
         }
     }
 
+    //UI for registering additional user profile and action button to navigate back or submit form
     return (
         <ScrollView style={styles.container}>
             <View style={styles.titleContainer}>
                 <Text style={styles.title}>Enter Details: </Text>
             </View>
             <View style={styles.formContainer}>
-                <Text style={form.input}>Gender</Text>
+                <Text style={form.input}>Gender 👱‍♀️</Text>
                 <TextInput style={[
                     form.field,
                     hasSubmit && gender === "" ? styles.error : null,
@@ -144,7 +145,7 @@ const RegisterProfileScreen = () => {
                     <Text >{birthday.toDateString()}</Text>
                 </TouchableOpacity>
                 {hasSubmit && !validBirthday(birthday) ? <Text style={styles.errorMessage}>*You must be 18 years old or over to use the app</Text> : null}
-                <Text style={form.input}>Career</Text>
+                <Text style={form.input}>Career 🚀</Text>
                 <TextInput style={[
                     form.field,
                     hasSubmit && career === "" ? styles.error : null,
@@ -164,7 +165,7 @@ const RegisterProfileScreen = () => {
                     placeholder="i.e., Toronto"
                 />
                 {hasSubmit && city === "" ? <Text style={styles.errorMessage}>*Please enter your city</Text> : null}
-                <Text style={form.input}>Interests</Text>
+                <Text style={form.input}>Interests ⚽️</Text>
                 <TextInput style={[
                     form.field,
                     hasSubmit && interests === "" ? styles.error : null,
@@ -180,7 +181,7 @@ const RegisterProfileScreen = () => {
                 }
                 <Text style={styles.buttonPicture} onPress={pickImage}>New Picture</Text>
                 {hasSubmit && !picture ? <Text style={styles.errorMessage}>*Please add a picture</Text> : null}
-                <Text style={form.input}>Bio</Text>
+                <Text style={form.input}>Bio 🦄</Text>
                 <TextInput style={[
                     form.field,
                     hasSubmit && bio === "" ? styles.error : null,

@@ -9,6 +9,7 @@ import EventPreview from '../components/EventPreview';
 import { ScrollView } from "react-native-gesture-handler";
 import { useIsFocused } from '@react-navigation/native';
 
+//home screen where user can see list of events user is hosting, upcoming events or abiltiy to create new event button
 const HomeScreen = () => {
     const [hostingEvents, setHostingEvents] = useState([]);
     const [upcomingEvents, setUpcomingEvents] = useState([]);
@@ -43,7 +44,8 @@ const HomeScreen = () => {
         }
     }
 
-    //with react applications, the screen is not reloaded when navigated to so to ensure data is reloading with new ones, we must check if the user just navigated to the screen and the screen is only refreshed once
+    //with react native applications, the screen is not reloaded when navigated to 
+    //to ensure data is reloading with new ones, we must check if the user just navigated to the screen and the screen is only refreshed once
     useEffect(() => {
         if (isFocused) {
             setNewNavigation(true);
@@ -79,7 +81,7 @@ const HomeScreen = () => {
                 <Header />
                 <View style={styles.border} />
                 <View style={styles.titleContainer}>
-                    <Text style={styles.title}>Hosting Events</Text>
+                    <Text style={styles.title}>Events I'm Hosting</Text>
                 </View>
                 {hostingEvents.map((hostingEvent) => {
                     let hostStatus = "New Requests!";
@@ -150,13 +152,6 @@ const styles = StyleSheet.create({
     noEventsMessage: {
         paddingHorizontal: spacing.margin,
         paddingBottom: spacing.component
-    },
-    settingOption: {
-        paddingHorizontal: spacing.margin,
-        marginTop: spacing.margin,
-    },
-    settingOptionText: {
-        fontSize: fontSize.sectionHeader
     },
     button: {
         flexDirection: 'row',

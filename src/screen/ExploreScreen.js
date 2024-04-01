@@ -9,13 +9,13 @@ import EventDetails from '../components/EventDetails';
 import { Directions, Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+//screen where user can view new events they have not seen
 const ExploreScreen = () => {
     const [event, setEvent] = useState([]);
     const [host, setHost] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [hasError, setHasError] = useState(false);
 
-    //fetch event that user has not seen and event host infromation
     const fetchEvent = async () => {
         try {
             const token = await AsyncStorage.getItem('token')
@@ -71,6 +71,7 @@ const ExploreScreen = () => {
         postEvent("Uninterested");
     }
 
+    //fling left means uninterested
     const fling = Gesture.Fling().direction(Directions.LEFT).onEnd(handleSwipeLeft);
 
     if (hasError) {
