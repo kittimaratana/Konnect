@@ -1,6 +1,25 @@
 # Project Title
 Konnect
 
+## Installation Instructions
+
+- Server:
+	1. Terminal: npm install
+	2. SQL: Create DATABASE konnect
+	3. Modify .env.sample file to .env and update credentials
+	4. Terminal: npx knex migrate:latest
+	5. Terminal: npx knex seed:run
+	6. Terminal: npm start
+
+- Client:
+	1. Terminal: npm install 
+	2. After installing Simulator, 
+        - Terminal: npm start
+        - Terminal: Press i 
+            - (iPhone SE (3rd generation) - iOS 17.2)
+	3. In the database you can utilize email and password for login credentials in user table
+    4. You can also register a new account if that's preferred 
+
 ## Overview
 
 Say hi to Konnect, the innovative networking app that fosters genuine connections through simple clicks. Say no more to superficial interactions, Konnect prioritizes meaningful and authentic connections, by matching individuals based on shared interests. Say goodbye to awkward interactions, hello to lifelong connections.
