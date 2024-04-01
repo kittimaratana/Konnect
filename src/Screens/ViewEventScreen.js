@@ -71,7 +71,7 @@ const ViewEventScreen = ({ route }) => {
                 navigation.navigate('HomeScreen');
             }
 
-            await fetchEvent();
+            fetchEvent();
         } catch (error) {
             setIsLoading(false);
             setHasError(true);

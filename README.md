@@ -492,3 +492,4 @@ Response:
     - making overall UI more visually pleasing
     - add more mobile guesture features 
     - make comptabile to other devices than just iphone 3
+    - character limit validation in the future
