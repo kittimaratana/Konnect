@@ -8,7 +8,6 @@ import { colors, spacing, fontSize, form } from '../styles/styles';
 import ActionButton from '../components/ActionButton';
 import Header from '../components/Header';
 
-
 //create event screen 
 const CreateEventScreen = () => {
     const [error, setError] = useState(null);
