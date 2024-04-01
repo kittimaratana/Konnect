@@ -1,6 +1,6 @@
 import React from 'react';
-import SettingsScreen from '../screens/SettingsScreen'
-import ViewProfileScreen from '../screens/ViewProfileScreen'
+import SettingsScreen from '../screen/SettingsScreen'
+import ViewProfileScreen from '../screen/ViewProfileScreen'
 import { createStackNavigator } from '@react-navigation/stack';
 
 //stack for settings tab

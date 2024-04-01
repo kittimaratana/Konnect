@@ -2,7 +2,7 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeStackNavigator from './HomeStackNavigator'
 import ExploreStackNavigator from './ExploreStackNavigator'
-import MessageScreen from '../screens/MessageScreen'
+import MessageScreen from '../screen/MessageScreen'
 import SettingsStackNavigator from './SettingsStackNavigator'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 

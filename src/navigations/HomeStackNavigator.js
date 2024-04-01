@@ -1,8 +1,8 @@
 import React from 'react';
-import HomeScreen from '../screens/HomeScreen'
-import CreateEventScreen from '../screens/CreateEventScreen'
-import ViewEventScreen from '../screens/ViewEventScreen'
-import ViewProfileScreen from '../screens/ViewProfileScreen'
+import HomeScreen from '../screen/HomeScreen'
+import CreateEventScreen from '../screen/CreateEventScreen'
+import ViewEventScreen from '../screen/ViewEventScreen'
+import ViewProfileScreen from '../screen/ViewProfileScreen'
 import { createStackNavigator } from '@react-navigation/stack';
 
 //stack for home tab
